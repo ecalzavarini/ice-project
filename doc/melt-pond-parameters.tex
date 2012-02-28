@@ -1,0 +1,81 @@
+\documentclass[onecolumn]{revtex4}
+
+\usepackage{wasysym}
+\usepackage{gensymb}
+\usepackage{bm}
+
+\begin{document}
+\title{Melt pond parameters}
+\author{Enrico Calzavarini \& Silvia C. Hirata}
+\maketitle
+
+
+\textbf{Physical parameters}\\
+\begin{eqnarray}
+\beta_T &=& -7.5264 \cdot 10^{-5}\ (\degree C)^{-1} \textrm{ water thermal expansion coefficient between -1.7 and -0.17 \degree C}\\
+\beta_S &=& 8.076 \cdot 10^{-4}\ (psu)^{-1} \quad \textrm{salinity contraction coefficient}\\ 
+\nu &=&  1.8 \cdot 10^{-6}\quad  \textrm{ water kinematic viscosity} \\
+\kappa_T &=& 1.39 \cdot 10^{-7}\ m^2 s^{-1}  \quad \textrm{thermal diffusivity of water} \\
+\kappa_S &=& 6.8 \cdot 10^{-10}\  m^2 s^{-1} \quad \textrm{molecular diffusivity of salt}\\
+c_p &=& 4.185\ kJ/ (Kg \degree K)\ \quad \textrm{specific heat of water}\\
+L &=& 333.5\ kJ/Kg \ \quad \textrm{latent heat of water}\\
+g &=& 9.81\ m s^{-2} \quad \textrm{gravity acceleration}\\
+T_{ice} &=& - \alpha\ S = -0.054\  \frac{\degree C}{psu} \ S \quad  \textrm{Slope of the liquid curve as a function of salt concentration}\\
+\end{eqnarray}
+
+\textbf{Boundary conditions}\\ 
+\begin{eqnarray}
+T_{top} &=& -0.17\ \degree C \quad  \textrm{top temperature} \\
+T_{bot} &=& -1.7\ \degree C  \quad  \textrm{bottom temperature} \\
+S_{top} &=& 3.2\ psu  \quad  \textrm{top salt concentration} \\
+S_{bot} &=& 32\ psu  \quad  \textrm{bottom salt concentration} \\
+H &=&  0.5\ m \quad  \textrm{height of the liquid layer}\\
+\end{eqnarray}
+
+\textbf{Dimensionless parameters}\\ 
+\begin{eqnarray}
+Ra_{T} &=& \frac{ \beta_T \ g \ \Delta T \ H^3 }{\nu\ \kappa_T} = 5.6 \cdot 10^{8}  \quad \textrm{thermal Rayleigh number}\\
+Ra_{S} &=& \frac{ \beta_S \ g \ \Delta S \ H^3 }{\nu\ \kappa_S} = 2.3 \cdot 10^{13}  \quad \textrm{solutal Rayleigh number}\\
+Pr &=& \frac{\nu}{\kappa_T} = 13. \quad \textrm{Prandtl number}\\
+Sc &=& \frac{\nu}{\kappa_S} = 2647. \quad \textrm{Schmidt number}\\
+Le &=& \frac{\kappa_T}{\kappa_S} = 204.  \quad \textrm{Lewis number}\\
+Ste &=& \frac{c_p\ \Delta T}{L} = 0.02 \quad \textrm{Stefan number}\\
+\frac{\alpha \ \Delta S}{\Delta T} &=&  1.016
+\end{eqnarray}
+
+\textbf{Equations for the pure fluid case without solidification}
+\begin{eqnarray}
+\partial_t {\bm u} + ({\bm u} \cdot \nabla) {\bm u} &=& -\nabla p / \rho + \nu\ \Delta {\bm u} + \beta_T  (T - T_0) \hat{\bm z} - \beta_S (S -S_0) \hat{\bm z}\\
+\partial_t T + ({\bm u} \cdot \nabla) T &=&  \kappa_T\ \Delta T\\
+\partial_t S + ({\bm u} \cdot \nabla) S &=&  \kappa_S\ \Delta S
+\end{eqnarray}
+When nondimensionalizing lengths with $H$, velocities with $\kappa/H$, temperatures with $\Delta T$, salt concentration with $\Delta S$ 
+\begin{eqnarray}
+\partial_t {\bm u} + ({\bm u} \cdot \nabla) {\bm u} &=& -\nabla p + Pr\ \left(  \Delta {\bm u} + \ Ra_T \ \theta\ \hat{\bm z}  -  \frac{Ra_S}{Le} \ \sigma\ \hat{\bm z} \right) \\
+\partial_t \theta + ({\bm u} \cdot \nabla) \theta &=&   \Delta \theta + u_z \\
+\partial_t \sigma + ({\bm u} \cdot \nabla) \sigma &=&  \frac{1}{Le}  \Delta \sigma + u_z
+\end{eqnarray}
+
+\textbf{Non-dimensional equations for the three-layer case without solidification}
+\begin{eqnarray}
+\partial_t \left(\frac{{\bm u}}{\phi}\right) + \frac{1}{\phi}({\bm u} \cdot \nabla)\frac{ {\bm u} }{\phi}&=& \nabla\cdot\left(\frac{1}{\phi} \nabla {\bm u} - P{\bm I}\right)-\frac{1}{Da}{\bm u} +Gr_T T \hat{\bm z} +Gr_S S \hat{\bm z} \\
+\partial_t T + ({\bm u} \cdot \nabla) T &=&  \frac{1}{Pr} \nabla\cdot\left( \frac{\kappa_T}{\kappa_{Tf}}\nabla T\right)\\
+\phi \partial_t S + ({\bm u} \cdot \nabla) S &=&  \frac{1}{Sc} \nabla\cdot\left(\phi\nabla S\right)
+\end{eqnarray}
+
+
+\textbf{STEPS}\\
+
+1) Validation of the stability analysis for RB problem with salinity field and no melting (Nield,1967) 
+\begin{eqnarray}
+\rho=1-\beta_T (T_{top}-T_{bot})-\beta_S (S_{top}-S_{bot})
+\end{eqnarray}
+
+\begin{eqnarray}
+Ra_{T}+Ra_{S}=1707.765
+\end{eqnarray}
+
+2) Validation of the melting: conduction (Hubert et al., 2008)
+
+3) Validation of the melting: convection (benchmark problem DG and PQ)
+\end{document}
