@@ -3,11 +3,11 @@
 void initial() 
 {
   int x, y, pp;
-  double rho,nu;
-  double  usq, vsq, u2, v2;
-  double ui, vi, sumsq, sumsq2, uv;
-  double Ts;
-  double beta, betas, gravity_y;
+  my_double rho,nu;
+  my_double  usq, vsq, u2, v2;
+  my_double ui, vi, sumsq, sumsq2, uv;
+  my_double Ts;
+  my_double beta, betas, gravity_y;
 
 #ifdef TEMPERATURE_MELTING
   Ts = property.T_solid;
@@ -19,9 +19,11 @@ void initial()
   beta = property.beta_t;
   gravity_y = property.gravity_y;
 #endif
+#ifdef SALT
 #ifdef SALT_BUOYANCY
   betas = property.beta_s;
   gravity_y = property.gravity_y;
+#endif
 #endif
 
   /* initialize random seed: */
@@ -61,10 +63,10 @@ void initial()
 #ifdef POISEUILLE
 	/* Poiseuille profile v_x(y) = 1/2 * (gradP / nu) * y * (L_y - y) */
 	/* v_x(max) = 1/8 * (gradP / nu) * L_y^2 */
-	//p[y][x].p[pp] = cx[pp]*wgt[pp]*(0.5*gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5));
-	p[IDX(y,x)].p[3] =   wgt[3]*(0.5*gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5));
-	p[IDX(y,x)].p[6] =   wgt[6]*(0.5*gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5));
-	p[IDX(y,x)].p[7] =   wgt[7]*(0.5*gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5));
+	//p[y][x].p[pp] = cx[pp]*wgt[pp]*(0.5*gradP/nu) * ((my_double)y-0.5) * ((my_double)NY-((my_double)y-0.5));
+	p[IDX(y,x)].p[3] =   wgt[3]*(0.5*gradP/nu) * ((my_double)y-0.5) * ((my_double)NY-((my_double)y-0.5));
+	p[IDX(y,x)].p[6] =   wgt[6]*(0.5*gradP/nu) * ((my_double)y-0.5) * ((my_double)NY-((my_double)y-0.5));
+	p[IDX(y,x)].p[7] =   wgt[7]*(0.5*gradP/nu) * ((my_double)y-0.5) * ((my_double)NY-((my_double)y-0.5));
 
 	p[IDX(y,x)].p[3] *= m(p[IDX(y,x)]);
 	p[IDX(y,x)].p[6] *= m(p[IDX(y,x)]);

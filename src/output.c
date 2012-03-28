@@ -4,15 +4,15 @@ void nusselt(int tstep, int flag){
   FILE *fout;
   char fname[128];
   int x, y, yp,ym;
-  double Nusselt, nu, kappa;  
-  double tmp1,tmp2,tmp3, tmp4, tmp5, vt, v2, t1, t2 , dyt;
-  double vx_y[NY] ,  vy_y[NY];
-  double vx2_y[NY], vy2_y[NY];
-  double rho_y[NY];
-  double nusselt_y[NY], vyt_y[NY] , dyt_y[NY];
-  double t_y[NY], t2_y[NY];
-  double  s_y[NY] , s2_y[NY];
-  double lf_y[NY];
+  my_double Nusselt, nu, kappa;  
+  my_double tmp1,tmp2,tmp3, tmp4, tmp5, vt, v2, t1, t2 , dyt;
+  my_double vx_y[NY] ,  vy_y[NY];
+  my_double vx2_y[NY], vy2_y[NY];
+  my_double rho_y[NY];
+  my_double nusselt_y[NY], vyt_y[NY] , dyt_y[NY];
+  my_double t_y[NY], t2_y[NY];
+  my_double  s_y[NY] , s2_y[NY];
+  my_double lf_y[NY];
 
   nu =property.nu;
   kappa = property.kappa_t;
@@ -88,16 +88,16 @@ void nusselt(int tstep, int flag){
 #endif
     }       
 
-    //Nusselt += 1.0 + (vt/(double)NX)/(kappa*deltaT/(double)NY);  /* approximate computation of Nusselt number */
+    //Nusselt += 1.0 + (vt/(my_double)NX)/(kappa*deltaT/(my_double)NY);  /* approximate computation of Nusselt number */
 
-    //Nusselt_y[y-1]= (rbout.vyt/(double)NX - kappa*rbout.dyt/(double)NX)/(kappa*deltaT/(double)(NY)); 
+    //Nusselt_y[y-1]= (rbout.vyt/(my_double)NX - kappa*rbout.dyt/(my_double)NX)/(kappa*deltaT/(my_double)(NY)); 
 
-    //Nusselt_y[y-1] = 1.0 + (vt/(double)NX)/(kappa*deltaT/(double)NY);  
+    //Nusselt_y[y-1] = 1.0 + (vt/(my_double)NX)/(kappa*deltaT/(my_double)NY);  
   }
 
   if(flag==1){
     // fprintf(stderr, "flag %d, tstep %d\n", flag, tstep);
-    rbout.nusselt = (rbout.vyt - property.kappa_t*rbout.dyt)/(property.kappa_t*property.deltaT/(double)NY);
+    rbout.nusselt = (rbout.vyt - property.kappa_t*rbout.dyt)/(property.kappa_t*property.deltaT/(my_double)NY);
     rbout.nusselt /= (2.0*NX*NY);
     rbout.vx2 /= 2.0*NX*NY;
     rbout.vy2 /= 2.0*NX*NY;
@@ -119,7 +119,7 @@ void nusselt(int tstep, int flag){
       vx_y[y-1] /= 2.0*NX;
       vy_y[y-1] /= 2.0*NX;
       t_y[y-1] /= 2.0*NX;
-      nusselt_y[y-1] = (vyt_y[y-1] - property.kappa_t*dyt_y[y-1])/(property.kappa_t*property.deltaT/(double)NY); 
+      nusselt_y[y-1] = (vyt_y[y-1] - property.kappa_t*dyt_y[y-1])/(property.kappa_t*property.deltaT/(my_double)NY); 
       rho_y[y-1] /= 2.0*NX;
       vx2_y[y-1] /= 2.0*NX;
       vy2_y[y-1] /= 2.0*NX;
@@ -135,25 +135,25 @@ void nusselt(int tstep, int flag){
 
     sprintf(fname,"nusselt.dat");
     fout = fopen(fname,"a");
-    fprintf(fout,"%d %e %e %e %e %e %e %e %e\n",tstep, rbout.nusselt, rbout.vx2 , rbout.vy2, rbout.t2 , 
-	    rbout.vx, rbout.vy, rbout.t ,rbout.rho);
+    fprintf(fout,"%d %e %e %e %e %e %e %e %e\n",tstep, (double)rbout.nusselt, (double)rbout.vx2 , (double)rbout.vy2, (double)rbout.t2 , 
+	    (double)rbout.vx, (double)rbout.vy, (double)rbout.t ,(double)rbout.rho);
     fclose(fout);
 
     sprintf(fname,"nusselt_y.dat");
     fout = fopen(fname,"w");
-    for (y=1; y<NY+1; y++) fprintf(fout,"%d %e %e %e %e %e %e %e %e\n",y, nusselt_y[y-1], vx_y[y-1], vy_y[y-1], t_y[y-1], rho_y[y-1],  vx2_y[y-1], vy2_y[y-1], t2_y[y-1]);
+    for (y=1; y<NY+1; y++) fprintf(fout,"%d %e %e %e %e %e %e %e %e\n",y, (double)nusselt_y[y-1], (double)vx_y[y-1], (double)vy_y[y-1], (double)t_y[y-1], (double)rho_y[y-1],  (double)vx2_y[y-1], (double)vy2_y[y-1], (double)t2_y[y-1]);
     fclose(fout);
  
 
 #ifdef SALT
     sprintf(fname,"salt.dat");
     fout = fopen(fname,"a");
-    fprintf(fout,"%d %e %e\n",tstep, rbout.s , rbout.s2);
+    fprintf(fout,"%d %e %e\n",tstep, (double)rbout.s , (double)rbout.s2);
     fclose(fout);
 
     sprintf(fname,"salt_y.dat");
     fout = fopen(fname,"w");
-    for (y=1; y<NY+1; y++) fprintf(fout,"%d %e %e\n",y, s_y[y-1], s2_y[y-1]);
+    for (y=1; y<NY+1; y++) fprintf(fout,"%d %e %e\n",y, (double)s_y[y-1], (double)s2_y[y-1]);
     fclose(fout);
   
 #endif
@@ -161,12 +161,12 @@ void nusselt(int tstep, int flag){
 #ifdef TEMPERATURE_MELTING
     sprintf(fname,"melt.dat");
     fout = fopen(fname,"a");
-    fprintf(fout,"%d %e\n",tstep, rbout.lf);
+    fprintf(fout,"%d %e\n",tstep, (double)rbout.lf);
     fclose(fout);
 
     sprintf(fname,"melt_y.dat");
     fout = fopen(fname,"w");
-    for (y=1; y<NY+1; y++) fprintf(fout,"%d %e\n",y, lf_y[y-1]);
+    for (y=1; y<NY+1; y++) fprintf(fout,"%d %e\n",y, (double)lf_y[y-1]);
     fclose(fout);
   
 #endif
@@ -192,7 +192,7 @@ void print_fields(int tstep)
       for (y=1; y<NY+1; y++) {
 	for (x=1; x<NX+1; x++) 
 	  fprintf(fout,"%d %d %g\n", x, y,
-		  p[IDX(y,x)].p[pp] );
+		  (double)p[IDX(y,x)].p[pp] );
 	fprintf(fout,"\n");
       }
       fclose(fout);
@@ -214,8 +214,8 @@ void print_fields(int tstep)
 #else
 	*/
 	fprintf(fout,"%d %d %g %g %g\n", x, y,
-		v[IDX(y,x)].vx,
-		v[IDX(y,x)].vy, dens[IDX(y,x)]);  
+		(double)v[IDX(y,x)].vx,
+		(double)v[IDX(y,x)].vy, (double)dens[IDX(y,x)]);  
       /*
 #endif  
       */    
@@ -229,7 +229,7 @@ void print_fields(int tstep)
     fout = fopen(fname,"w");
     for (y=1; y<NY+1; y++) {
       for (x=1; x<NX+1; x++) 
-	fprintf(fout,"%d %d %g\n", x, y, tt[IDX(y,x)] );
+	fprintf(fout,"%d %d %g\n", x, y, (double)tt[IDX(y,x)] );
       fprintf(fout,"\n");
     }
     fclose(fout);
@@ -241,7 +241,7 @@ void print_fields(int tstep)
     fout = fopen(fname,"w");
     for (y=1; y<NY+1; y++) {
       for (x=1; x<NX+1; x++) 
-	fprintf(fout,"%d %d %g %g %g\n", x, y, ll[IDX(y,x)],ll[IDX(y,x)]-llold[IDX(y,x)], hh[IDX(y,x)]);
+	fprintf(fout,"%d %d %g %g %g\n", x, y, (double)ll[IDX(y,x)],(double)(ll[IDX(y,x)]-llold[IDX(y,x)]), (double)hh[IDX(y,x)]);
       fprintf(fout,"\n");
     }
     fclose(fout);
@@ -253,7 +253,7 @@ void print_fields(int tstep)
     fout = fopen(fname,"w");
     for (y=1; y<NY+1; y++) {
       for (x=1; x<NX+1; x++) 
-	fprintf(fout,"%d %d %g\n", x, y, ss[IDX(y,x)]);
+	fprintf(fout,"%d %d %g\n", x, y, (double)ss[IDX(y,x)]);
       fprintf(fout,"\n");
     }
     fclose(fout);
@@ -281,7 +281,7 @@ void print_fields_h5(int tstep)
       for (y=1; y<NY+1; y++) {
 	for (x=1; x<NX+1; x++) 
 	  fprintf(fout,"%d %d %g\n", x, y,
-		  p[IDX(y,x)].p[pp] );
+		  (double)p[IDX(y,x)].p[pp] );
 	fprintf(fout,"\n");
       }
       fclose(fout);
@@ -296,8 +296,8 @@ void print_fields_h5(int tstep)
     for (y=1; y<NY+1; y++) {
       for (x=1; x<NX+1; x++) 
 	fprintf(fout,"%d %d %g %g %g\n", x, y,
-		v[IDX(y,x)].vx/dens[IDX(y,x)],
-		v[IDX(y,x)].vx/dens[IDX(y,x)], dens[IDX(y,x)]);        
+	  (double)(v[IDX(y,x)].vx/dens[IDX(y,x)]),
+	  (double)(v[IDX(y,x)].vx/dens[IDX(y,x)]), (double)dens[IDX(y,x)]);        
       fprintf(fout,"\n");
     }
     fclose(fout);
@@ -308,7 +308,7 @@ void print_fields_h5(int tstep)
     fout = fopen(fname,"w");
     for (y=1; y<NY+1; y++) {
       for (x=1; x<NX+1; x++) 
-	fprintf(fout,"%d %d %g\n", x, y, tt[IDX(y,x)] );
+	fprintf(fout,"%d %d %g\n", x, y, (double)tt[IDX(y,x)] );
       fprintf(fout,"\n");
     }
     fclose(fout);
@@ -320,7 +320,7 @@ void print_fields_h5(int tstep)
     fout = fopen(fname,"w");
     for (y=1; y<NY+1; y++) {
       for (x=1; x<NX+1; x++) 
-	fprintf(fout,"%d %d %g %g %g\n", x, y, ll[IDX(y,x)],ll[IDX(y,x)]-llold[IDX(y,x)], hh[IDX(y,x)]);
+	fprintf(fout,"%d %d %g %g %g\n", x, y, (double)ll[IDX(y,x)],(double)ll[IDX(y,x)]-(double)llold[IDX(y,x)], (double)hh[IDX(y,x)]);
       fprintf(fout,"\n");
     }
     fclose(fout);
@@ -332,7 +332,7 @@ void print_fields_h5(int tstep)
     fout = fopen(fname,"w");
     for (y=1; y<NY+1; y++) {
       for (x=1; x<NX+1; x++) 
-	fprintf(fout,"%d %d %g\n", x, y, ss[IDX(y,x)]);
+	fprintf(fout,"%d %d %g\n", x, y, (double)ss[IDX(y,x)]);
       fprintf(fout,"\n");
     }
     fclose(fout);

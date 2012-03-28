@@ -3,9 +3,9 @@
 void design_lb(){
 
   /* weights */
-  double rt0=(4.0 /  9.0);
-  double rt1=(1.0 /  9.0);
-  double rt2=(1.0 / 36.0);
+  my_double rt0=(4.0 /  9.0);
+  my_double rt1=(1.0 /  9.0);
+  my_double rt2=(1.0 / 36.0);
 
   wgt[0] = rt0; 
   wgt[1] = rt1;
@@ -44,8 +44,8 @@ void design_lb(){
   invp = {0, 3, 4, 1, 2, 7, 8, 5, 6};
   */
   /* speed of sound constants */
-extern double cs, cs2 , cs4 , cs22 , cssq;
-extern double invcs, invcs2, invcs4;
+extern my_double cs, cs2 , cs4 , cs22 , cssq;
+extern my_double invcs, invcs2, invcs4;
 
   cs=1.0/sqrt(3.0);   invcs = 1.0/cs;
   cs2=(1.0 / 3.0);    invcs2 = 1.0/cs2;
@@ -55,7 +55,7 @@ extern double invcs, invcs2, invcs4;
 }
 
 
-double read_parameter(char * variable){
+my_double read_parameter(char * variable){
 
   char fnamein[256], fnameout[256];
   char name[256] = "NULL";
@@ -81,7 +81,7 @@ double read_parameter(char * variable){
 	 fout = fopen(fnameout,"a");
 	 fprintf(fout,"%s %g\n",name, val);
 	 fclose(fout);
-	 return val;
+	 return (my_double)val;
        }
        if(feof(fin)){ 
 	 fprintf(stderr,"Error message -> %s not found. End of File. Exit.\n",variable);
@@ -119,18 +119,18 @@ void assign_parameters(){
   fprintf(stderr,"YES <- FLUID\n");
   sprintf(name,"tau");
   property.tau = read_parameter(name);
-  fprintf(stderr,"Properties:\ntau %g\n",property.tau);
+  fprintf(stderr,"Properties:\ntau %g\n",(double)property.tau);
   property.nu = (property.tau - 0.5)/3.0;
-  fprintf(stderr,"viscosity %g\n",property.nu);
+  fprintf(stderr,"viscosity %g\n",(double)property.nu);
 #endif
 
 #ifdef TEMPERATURE
   fprintf(stderr,"YES <- TEMPERATURE\n");
   sprintf(name,"tau_t");
   property.tau_t = read_parameter(name);
-  fprintf(stderr,"Properties:\ntau_t %g\n",property.tau_t);
+  fprintf(stderr,"Properties:\ntau_t %g\n",(double)property.tau_t);
   property.kappa_t = (property.tau_t - 0.5)/3.0;
-  fprintf(stderr,"thermal diffusivity %g\n",property.kappa_t);
+  fprintf(stderr,"thermal diffusivity %g\n",(double)property.kappa_t);
   sprintf(name,"T_bot");
   property.T_bot = read_parameter(name);
   sprintf(name,"T_top");
@@ -138,18 +138,18 @@ void assign_parameters(){
   sprintf(name,"T_ref");
   property.T_ref = read_parameter(name);
   property.deltaT = property.T_bot-property.T_top;
-  fprintf(stderr,"T_bot %g , T_top %g , deltaT %g\n",property.T_bot, property.T_top, property.deltaT);
+  fprintf(stderr,"T_bot %g , T_top %g , deltaT %g\n",(double)property.T_bot, (double)property.T_top, (double)property.deltaT);
 #ifdef TEMPERATURE_BUOYANCY
   fprintf(stderr,"YES <- TEMPERATURE_BUOYANCY\n");
   sprintf(name,"beta_t");
   property.beta_t = read_parameter(name);
-  fprintf(stderr,"linear volume expansion coefficient %g\n",property.beta_t);
+  fprintf(stderr,"linear volume expansion coefficient %g\n",(double)property.beta_t);
   sprintf(name,"beta2_t");
   property.beta2_t = read_parameter(name);
-  fprintf(stderr,"quadratic volume expansion coefficient %g\n",property.beta2_t);
+  fprintf(stderr,"quadratic volume expansion coefficient %g\n",(double)property.beta2_t);
   sprintf(name,"gravity_y");
   property.gravity_y = read_parameter(name);
-  fprintf(stderr,"gravity_y %g\n",property.gravity_y);
+  fprintf(stderr,"gravity_y %g\n",(double)property.gravity_y);
 #endif 
 #ifdef TEMPERATURE_MELTING
   fprintf(stderr,"YES <- TEMPERATURE_MELTING\n");
@@ -161,10 +161,10 @@ void assign_parameters(){
   property.latent_heat = read_parameter(name);
   sprintf(name,"liquidus_slope");
   property.liquidus_slope = read_parameter(name);
-  fprintf(stderr,"Temperature solid %g\n",property.T_solid);
-  fprintf(stderr,"Thermal capacity at constant pressure %g\n",property.specific_heat);
-  fprintf(stderr,"Latent_heat %g\n",property.latent_heat);
-  fprintf(stderr,"Liquidus_slope %g\n",property.liquidus_slope);
+  fprintf(stderr,"Temperature solid %g\n",(double)property.T_solid);
+  fprintf(stderr,"Thermal capacity at constant pressure %g\n",(double)property.specific_heat);
+  fprintf(stderr,"Latent_heat %g\n",(double)property.latent_heat);
+  fprintf(stderr,"Liquidus_slope %g\n",(double)property.liquidus_slope);
 #endif 
 #endif
 
@@ -172,9 +172,9 @@ void assign_parameters(){
   fprintf(stderr,"YES <- SALT\n");
   sprintf(name,"tau_s");
   property.tau_s = read_parameter(name);
-  fprintf(stderr,"Properties:\ntau_s %g\n",property.tau_s);
+  fprintf(stderr,"Properties:\ntau_s %g\n",(double)property.tau_s);
   property.kappa_s = (property.tau_s - 0.5)/3.0;
-  fprintf(stderr,"salt diffusivity %g\n",property.kappa_s);
+  fprintf(stderr,"salt diffusivity %g\n",(double)property.kappa_s);
   sprintf(name,"S_bot");
   property.S_bot = read_parameter(name);
   sprintf(name,"S_top");
@@ -182,16 +182,16 @@ void assign_parameters(){
   sprintf(name,"S_ref");
   property.S_ref = read_parameter(name);
   property.deltaS = property.S_bot-property.S_top;
-  fprintf(stderr,"S_bot %g , S_top %g , deltaS %g\n",property.S_bot, property.S_top, property.deltaS);
+  fprintf(stderr,"S_bot %g , S_top %g , deltaS %g\n",(double)property.S_bot, (double)property.S_top, (double)property.deltaS);
 #ifdef SALT_BUOYANCY
   fprintf(stderr,"YES <- SALT_BUOYANCY\n");
   sprintf(name,"beta_s");
   property.beta_s = read_parameter(name);
-  fprintf(stderr,"linear volume expansion coefficient %g\n",property.beta_t);
+  fprintf(stderr,"linear volume expansion coefficient %g\n",(double)property.beta_t);
 #ifndef TEMPERATURE_BUOYANCY
   sprintf(name,"gravity_y");
   property.gravity_y = read_parameter(name);
-  fprintf(stderr,"gravity_y %g\n",property.gravity_y);
+  fprintf(stderr,"gravity_y %g\n",(double)property.gravity_y);
 #endif
 #endif 
 #endif
@@ -199,30 +199,37 @@ void assign_parameters(){
 #ifdef TEMPERATURE
  fprintf(stderr,"\n -- DIMENSIONLESS CONTROL PARAMETERS -- \n");
   dimensionless.Prandtl = property.nu/property.kappa_t;
-  fprintf(stderr,"Prandtl %g\n",dimensionless.Prandtl);
+  fprintf(stderr,"Prandtl %g\n",(double)dimensionless.Prandtl);
 #ifdef TEMPERATURE_BUOYANCY
   dimensionless.Rayleigh_t = property.beta_t*property.gravity_y*property.deltaT*NY*NY*NY/(property.nu*property.kappa_t);
-  fprintf(stderr,"Thermal Rayleigh %g\n",dimensionless.Rayleigh_t);
+  fprintf(stderr,"Thermal Rayleigh %g\n",(double)dimensionless.Rayleigh_t);
 #ifdef TEMPERATURE_MELTING
   dimensionless.Stefan= property.deltaT*property.specific_heat/property.latent_heat;
-  fprintf(stderr,"Stefan %g\n",dimensionless.Stefan);
+  fprintf(stderr,"Stefan %g\n",(double)dimensionless.Stefan);
 #endif
 #endif
 #endif
 #ifdef SALT
   dimensionless.Schmidt = property.nu/property.kappa_s;
-  fprintf(stderr,"Schmidt %g\n",dimensionless.Schmidt);
+  fprintf(stderr,"Schmidt %g\n",(double)dimensionless.Schmidt);
 #endif
 #ifdef SALT && TEMPERATURE
   dimensionless.Lewis = property.kappa_t/property.kappa_s;
-  fprintf(stderr,"Lewis %g\n",dimensionless.Lewis);
+  fprintf(stderr,"Lewis %g\n",(double)dimensionless.Lewis);
 #endif
+#ifdef SALT
 #ifdef SALT_BUOYANCY
   dimensionless.Rayleigh_s = property.beta_s*property.gravity_y*property.deltaS*NY*NY*NY/(property.nu*property.kappa_s);
-  fprintf(stderr,"Solutal Rayleigh %g\n",dimensionless.Rayleigh_s);
+  fprintf(stderr,"Solutal Rayleigh %g\n",(double)dimensionless.Rayleigh_s);
+#endif
 #endif
  fprintf(stderr,"\n");
 
+ fprintf(stderr,"Size of float %d\n",sizeof(float));
+ fprintf(stderr,"Size of double %d\n",sizeof(double));
+ fprintf(stderr,"Size of long double %d\n",sizeof(long double));
+ fprintf(stderr,"Size of my_double %d\n",sizeof(my_double));
+ fprintf(stderr,"\n");
 }
 
 void allocate_fields(){
@@ -239,14 +246,14 @@ void allocate_fields(){
   vold  = (velocity*) malloc(sizeof(velocity)*(NX+2)*(NY+2)); 
  if(vold == NULL){ fprintf(stderr,"Not enough memory to allocate vold\n"); exit(-1);}
 
-  dens  = (double*) malloc(sizeof(double)*(NX+2)*(NY+2)); 
+  dens  = (my_double*) malloc(sizeof(my_double)*(NX+2)*(NY+2)); 
  if(dens == NULL){ fprintf(stderr,"Not enough memory to allocate dens\n"); exit(-1);}
 
   force  = (vector*) malloc(sizeof(vector)*(NX+2)*(NY+2)); 
  if(force == NULL){ fprintf(stderr,"Not enough memory to allocate force\n"); exit(-1);}
 
 #ifdef FLUID_RHEOLOGY
-  tau  = (double*) malloc(sizeof(double)*(NX+2)*(NY+2)); 
+  tau  = (my_double*) malloc(sizeof(my_double)*(NX+2)*(NY+2)); 
  if(tau == NULL){ fprintf(stderr,"Not enough memory to allocate tau\n"); exit(-1);}
 #endif
 #endif 
@@ -255,20 +262,20 @@ void allocate_fields(){
   g  = (pop*) malloc(sizeof(pop)*(NX+2)*(NY+2)); 
  if(g == NULL){ fprintf(stderr,"Not enough memory to allocate g\n"); exit(-1);}
 
-  tt  = (double*) malloc(sizeof(double)*(NX+2)*(NY+2)); 
+  tt  = (my_double*) malloc(sizeof(my_double)*(NX+2)*(NY+2)); 
  if(tt == NULL){ fprintf(stderr,"Not enough memory to allocate tt\n"); exit(-1);}
 
-  ttold  = (double*) malloc(sizeof(double)*(NX+2)*(NY+2)); 
+  ttold  = (my_double*) malloc(sizeof(my_double)*(NX+2)*(NY+2)); 
  if(ttold == NULL){ fprintf(stderr,"Not enough memory to allocate ttold\n"); exit(-1);}
 
 #ifdef TEMPERATURE_MELTING
-  ll  = (double*) malloc(sizeof(double)*(NX+2)*(NY+2)); 
+  ll  = (my_double*) malloc(sizeof(my_double)*(NX+2)*(NY+2)); 
  if(ll == NULL){ fprintf(stderr,"Not enough memory to allocate ll\n"); exit(-1);}
 
-  llold  = (double*) malloc(sizeof(double)*(NX+2)*(NY+2)); 
+  llold  = (my_double*) malloc(sizeof(my_double)*(NX+2)*(NY+2)); 
  if(llold == NULL){ fprintf(stderr,"Not enough memory to allocate llold\n"); exit(-1);}
 
-  hh  = (double*) malloc(sizeof(double)*(NX+2)*(NY+2)); 
+  hh  = (my_double*) malloc(sizeof(my_double)*(NX+2)*(NY+2)); 
  if(hh == NULL){ fprintf(stderr,"Not enough memory to allocate hh\n"); exit(-1);}
 #endif
 #endif
@@ -277,10 +284,10 @@ void allocate_fields(){
   s  = (pop*) malloc(sizeof(pop)*(NX+2)*(NY+2)); 
  if(s == NULL){ fprintf(stderr,"Not enough memory to allocate g\n"); exit(-1);}
 
-  ss  = (double*) malloc(sizeof(double)*(NX+2)*(NY+2)); 
+  ss  = (my_double*) malloc(sizeof(my_double)*(NX+2)*(NY+2)); 
  if(ss == NULL){ fprintf(stderr,"Not enough memory to allocate ss\n"); exit(-1);}
 
-  ssold  = (double*) malloc(sizeof(double)*(NX+2)*(NY+2)); 
+  ssold  = (my_double*) malloc(sizeof(my_double)*(NX+2)*(NY+2)); 
  if(ssold == NULL){ fprintf(stderr,"Not enough memory to allocate ssold\n"); exit(-1);}
 #endif
 }

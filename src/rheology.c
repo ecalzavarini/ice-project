@@ -4,18 +4,18 @@
 #ifdef FLUID_RHEOLOGY
 void relaxation_time(){
   int x, y, pp, i, j;
-  double u, v;
-  double invtau, rho;
-  double cu, u2;
+  my_double u, v;
+  my_double invtau, rho;
+  my_double cu, u2;
   pop p_eq;
-  double tau0;
-  double S[2][2], gamma_dot,eps;
-  double nu0 =  (tau1-0.5)/3.0;
-  double nu00 = 0.5*(tau1-0.5)/3.0;  
-  double lambda = 1.0;
-  double nindex = 0.1;
+  my_double tau0;
+  my_double S[2][2], gamma_dot,eps;
+  my_double nu0 =  (tau1-0.5)/3.0;
+  my_double nu00 = 0.5*(tau1-0.5)/3.0;  
+  my_double lambda = 1.0;
+  my_double nindex = 0.1;
 
-  double B, tau_min;
+  my_double B, tau_min;
 
 
   

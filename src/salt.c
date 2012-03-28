@@ -6,9 +6,9 @@ void bcs()
   int pp;
   int x, y;
   int xm, xp;
-  double rho,rhos,ux,uy,cu,u2; 
+  my_double rho,rhos,ux,uy,cu,u2; 
   pop s_eq, s_eq_w;
-  double effDS; /*effective DS */
+  my_double effDS; /*effective DS */
 
   for (x=0; x<NX+2; x++) {
     for (pp=0; pp<9; pp++) {
@@ -121,7 +121,7 @@ void bcs()
 #ifdef METHOD_FORCING_GUO
 void buoyancys() 
 {
-  double ff_true, temp;
+  my_double ff_true, temp;
   int x, y;
 
   ff_true = property.beta_s*property.gravity_y;
@@ -137,7 +137,7 @@ void buoyancys()
 #else
 void buoyancys() 
 {
-  double ff_true, temp;
+  my_double ff_true, temp;
   int x, y, pp;
 
   ff_true = property.beta_s*property.gravity_y;

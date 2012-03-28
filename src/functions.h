@@ -1,7 +1,7 @@
 #include "define.h"
 
 void design_lb();
-double read_parameter();
+my_double read_parameter();
 void assign_parameters();
 void allocate_fields();
 void initial();

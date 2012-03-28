@@ -8,9 +8,9 @@ void bct()
   int pp;
   int x, y;
   int xm, xp;
-  double rho,rhot,ux,uy,cu,u2; 
+  my_double rho,rhot,ux,uy,cu,u2; 
   pop g_eq, g_eq_w;
-  double effDT; /*effective DT */
+  my_double effDT; /*effective DT */
 
   for (x=0; x<NX+2; x++) {
     for (pp=0; pp<9; pp++) {
@@ -202,7 +202,7 @@ void bct()
 #ifdef METHOD_FORCING_GUO
 void buoyancy() 
 {
-  double ff1, ff2, vel, temp, coeff;
+  my_double ff1, ff2, vel, temp, coeff;
   int x, y;
 
   ff1 = property.beta_t*property.gravity_y;
@@ -220,7 +220,7 @@ void buoyancy()
 #else
 void buoyancy() 
 {
-  double ff1, ff2, vel, temp;
+  my_double ff1, ff2, vel, temp;
   int x, y, pp;
 
   ff1 = property.beta_t*property.gravity_y;

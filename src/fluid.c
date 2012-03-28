@@ -184,10 +184,10 @@ void poiseuille_forc(){
 
 #ifdef FLUID_FORCING_SPONGE
 void sponge_forc(){
-  double temp;
+  my_double temp;
   int x, y;
-  double vx0 = 0.0;
-  double vy0 = 0.1;
+  my_double vx0 = 0.0;
+  my_double vy0 = 0.1;
 
   for (y=1; y<NY+1; y++)
     for (x=1; x<NX+1; x++){

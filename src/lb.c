@@ -39,9 +39,9 @@ void displace(pop* p)
 
 pop equilibrium(pop *f, int y, int x) {
   int pp;
-  double ux, uy;
-  double rho,rhof;
-  double cu, u2;
+  my_double ux, uy;
+  my_double rho,rhof;
+  my_double cu, u2;
   pop f_eq;
 
       rhof = m(f[IDX(y,x)]);
@@ -65,9 +65,9 @@ pop equilibrium(pop *f, int y, int x) {
 
 pop equilibrium_opposite_velocity(pop *f, int y, int x) {
   int pp;
-  double ux, uy;
-  double rho,rhof;
-  double cu, u2;
+  my_double ux, uy;
+  my_double rho,rhof;
+  my_double cu, u2;
   pop f_eq;
 
       rhof = m(f[IDX(y,x)]);
@@ -92,7 +92,7 @@ pop equilibrium_opposite_velocity(pop *f, int y, int x) {
 
 void collide(pop* f,int n){
   int x, y, pp;
-  double invtau;
+  my_double invtau;
   pop f_eq;
 
 switch (n) {
@@ -130,9 +130,9 @@ switch (n) {
 /* PHYSICAL REVIEW E, VOLUME 65, 046308 */
 void apply_forcing() 
 {
-  double coeff,invtau;
+  my_double coeff,invtau;
   int x, y, pp, idx;
-  double ux , uy , cu , dx, dy ;
+  my_double ux , uy , cu , dx, dy ;
   pop popForce;
 
    invtau = 1.0 / property.tau;  
@@ -162,9 +162,9 @@ void apply_forcing()
 /**************************************************/
 void hydro_fields(int i){
   int x,y;
-  double tmpx, tmpy;
+  my_double tmpx, tmpy;
   FILE *ferr;
-  double error;
+  my_double error;
 
   for (y=1; y<NY+1; y++) 
     for (x=1; x<NX+1; x++) {
@@ -224,7 +224,7 @@ void hydro_fields(int i){
 /*************************************/
 void check_mass(int i){
   int x, y;
-  double mass1; 
+  my_double mass1; 
   FILE *fmass;
 
   fmass = fopen("mass.dat","a");

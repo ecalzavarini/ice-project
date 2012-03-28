@@ -1,50 +1,52 @@
 #include "define.h"
 
+#define my_double long double
+
 /* Useful structures */
 typedef struct {
-  double p[9];
+  my_double p[9];
 } pop;
 
 typedef struct {
-  double val;
-  double name;
+  my_double val;
+  my_double name;
 } param;
 
 typedef struct {
   int NX , NY;
 #ifdef FLUID
-  double tau;
-  double nu;
+  my_double tau;
+  my_double nu;
 #endif
 #ifdef TEMPERATURE
-  double tau_t;
-  double kappa_t;
-  double T_bot, T_top, T_ref;
-  double deltaT;
+  my_double tau_t;
+  my_double kappa_t;
+  my_double T_bot, T_top, T_ref;
+  my_double deltaT;
 #ifdef TEMPERATURE_BUOYANCY
-  double beta_t;
-  double beta2_t;
-  double gravity_x;
-  double gravity_y;
+  my_double beta_t;
+  my_double beta2_t;
+  my_double gravity_x;
+  my_double gravity_y;
 #endif
 #ifdef TEMPERATURE_MELTING
-  double T_solid;
-  double specific_heat;
-  double latent_heat;
-  double liquidus_slope;  
+  my_double T_solid;
+  my_double specific_heat;
+  my_double latent_heat;
+  my_double liquidus_slope;  
 #endif
 #endif
 #ifdef SALT
-  double tau_s;
-  double kappa_s;
-  double S_bot, S_top, S_ref;
-  double deltaS;
+  my_double tau_s;
+  my_double kappa_s;
+  my_double S_bot, S_top, S_ref;
+  my_double deltaS;
 #ifdef SALT_BUOYANCY
-  double beta_s;
-  double beta2_s;
+  my_double beta_s;
+  my_double beta2_s;
 #ifndef TEMPERATURE_BUOYANCY
-  double gravity_x;
-  double gravity_y;
+  my_double gravity_x;
+  my_double gravity_y;
 #endif
 #endif
 #endif
@@ -52,49 +54,49 @@ typedef struct {
 
 typedef struct {
 #ifdef TEMPERATURE
-  double Prandtl;
+  my_double Prandtl;
 #ifdef TEMPERATURE_BUOYANCY
-  double Rayleigh_t;
+  my_double Rayleigh_t;
 #ifdef TEMPERATURE_MELTING
-  double Stefan;
+  my_double Stefan;
 #endif
 #endif
 #endif
 #ifdef SALT
-  double Schmidt;
+  my_double Schmidt;
 #endif
 #ifdef SALT && TEMPERATURE
-  double Lewis;
+  my_double Lewis;
 #endif
 #ifdef SALT_BUOYANCY
-  double Rayleigh_s;
+  my_double Rayleigh_s;
 #endif
 } dimensionless_prop;
 
 typedef struct {
-  double vx;
-  double vy;
+  my_double vx;
+  my_double vy;
 } velocity;
 
 typedef struct {
-  double x;
-  double y;
+  my_double x;
+  my_double y;
 } vector;
 
 
 typedef struct {
-  double vx, vy, rho;
-  double vx2, vy2;
+  my_double vx, vy, rho;
+  my_double vx2, vy2;
 #ifdef TEMPERATURE
-  double nusselt, vyt;
-  double dyt;
-  double t , t2;
+  my_double nusselt, vyt;
+  my_double dyt;
+  my_double t , t2;
 #endif
 #ifdef SALT
-  double s, s2 ;
+  my_double s, s2 ;
 #endif
 #ifdef TEMPERATURE_MELTING
-  double lf;
+  my_double lf;
 #endif
 } diag;
 

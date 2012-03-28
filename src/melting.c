@@ -4,14 +4,14 @@
 #ifdef TEMPERATURE_MELTING
 void melting(int i){
   int x, y , pp;
-  double  fl;
-  double hs, hl , temp , Tl;
-  double eps = 1.0;
-  double Ts,Cp,Lf;
+  my_double  fl;
+  my_double hs, hl , temp , Tl;
+  my_double eps = 1.0;
+  my_double Ts,Cp,Lf;
 
-  Ts = (double) property.T_solid;
-  Cp = (double) property.specific_heat;
-  Lf = (double) property.latent_heat;
+  Ts = (my_double) property.T_solid;
+  Cp = (my_double) property.specific_heat;
+  Lf = (my_double) property.latent_heat;
   /* solidification temperature */
   hs = Cp*Ts;
   hl = hs+Lf;
