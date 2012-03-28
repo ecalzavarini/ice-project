@@ -98,12 +98,22 @@ void initial()
 #ifdef SALT
     for (y=0; y<NY+2; y++)
       for (x=0; x<NX+2; x++){ 
+#ifdef SALT_INITIAL_LINEAR
 	/* linear salinity gradient */
 	ss[IDX(y,x)] = ( (property.S_bot-property.S_ref) - (property.deltaS/NY)*(y-0.5) );
 	if(x<NX/2) ss[IDX(y,x)] += 1.e-5;
 	/* on the populations */
 	for (pp = 0; pp < 9; pp++)
 	  s[IDX(y,x)].p[pp] = wgt[pp]*ss[IDX(y,x)];
+#endif
+#ifdef SALT_INITIAL_CONSTANT
+        /* constant salinity */
+        ss[IDX(y,x)] = property.S_top;
+        /* on the populations */
+        for (pp = 0; pp < 9; pp++)
+          s[IDX(y,x)].p[pp] = wgt[pp]*ss[IDX(y,x)];
+#endif
+
       }  
 #endif
 
@@ -120,8 +130,8 @@ void initial()
     //fprintf(stdout,"%d %g %g %g\n",y, tt[IDX(y,x)], ss[IDX(y,x)], Ts);
     for (x=0; x<NX+2; x++){ 
       ll[IDX(y,x)]=llold[IDX(y,x)]=1.0;
-      Ts = property.liquidus_slope * ss[IDX(y,x)];
-       if( tt[IDX(y,x)] < Ts ){ ll[IDX(y,x)]=llold[IDX(y,x)]=0.0; }
+      //Ts = property.liquidus_slope * ss[IDX(y,x)];
+      // if( tt[IDX(y,x)] < Ts ){ ll[IDX(y,x)]=llold[IDX(y,x)]=0.0; }
     }  
   }
 #endif 
