@@ -30,6 +30,7 @@ void melting(int i){
 #ifdef SALT
       /* subtract the freezing point depression */
       Ts = property.liquidus_slope * ss[IDX(y,x)];
+      //      Ts = property.liquidus_slope * ( ss[IDX(y,x)] - property.S_top );
       hs = Cp*Ts;
       hl = hs+Lf;
 #endif

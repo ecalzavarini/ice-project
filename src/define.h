@@ -14,5 +14,5 @@
 #define SALT
 #define SALT_BC_ISO_Y
 #define SALT_BUOYANCY
-
-
+#define SALT_INITIAL_CONSTANT
+//#define SALT_INITIAL_LINEAR
