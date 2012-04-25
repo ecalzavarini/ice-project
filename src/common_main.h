@@ -16,6 +16,9 @@ diag rbout;
 #ifdef FLUID
 /* Populations */
 pop *p;
+#ifdef METHOD_STEPPING_AB2
+pop *p_old;
+#endif
 pop *buffer;
 velocity *v,*vold;
 my_double *dens;
@@ -37,12 +40,18 @@ char OutDir[256];
 #ifdef TEMPERATURE
 /* Populations */
 pop *g;
+#ifdef METHOD_STEPPING_AB2
+pop *g_old;
+#endif
 my_double *tt,*ttold;
 #endif
 
 #ifdef SALT
 /* Populations */
 pop *s;
+#ifdef METHOD_STEPPING_AB2
+pop *s_old;
+#endif
 my_double *ss,*ssold;
 #endif
 

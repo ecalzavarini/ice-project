@@ -1,6 +1,7 @@
 #include "define.h"
 
-#define my_double long double
+//#define my_double long double 
+#define my_double double
 
 /* Useful structures */
 typedef struct {

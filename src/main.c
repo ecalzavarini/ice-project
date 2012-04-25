@@ -44,15 +44,27 @@ int main(int argc, char** argv){
 
     /* Collisions */
 #ifdef FLUID
-    collide(p,0);
+#ifdef METHOD_STEPPING_AB2
+    collide(p,p_old,0);
+#else
+   collide(p,0);
+#endif
 #endif
 
 #ifdef TEMPERATURE
-    collide(g,1);
+#ifdef METHOD_STEPPING_AB2
+    collide(g,g_old,1);
+#else
+   collide(g,1);
+#endif
 #endif
 
 #ifdef SALT
-    collide(s,2);
+#ifdef METHOD_STEPPING_AB2
+    collide(s,s_old,2);
+#else
+   collide(s,2);
+#endif
 #endif
 
     /* Forcings */

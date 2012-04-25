@@ -17,6 +17,9 @@ extern diag rbout;
 #ifdef FLUID
 /* Populations */
 extern pop *p;
+#ifdef METHOD_STEPPING_AB2
+pop *p_old;
+#endif
 extern pop *buffer;
 extern velocity *v,*vold;
 extern my_double *dens;
@@ -39,12 +42,18 @@ extern char OutDir[256];
 #ifdef TEMPERATURE
 /* Populations */
 extern pop *g;
+#ifdef METHOD_STEPPING_AB2
+pop *g_old;
+#endif
 extern my_double *tt,*ttold;
 #endif
 
 #ifdef SALT
 /* Populations */
 extern pop *s;
+#ifdef METHOD_STEPPING_AB2
+pop *s_old;
+#endif
 extern my_double *ss,*ssold;
 #endif
 

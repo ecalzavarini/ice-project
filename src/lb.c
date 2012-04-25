@@ -89,15 +89,19 @@ pop equilibrium_opposite_velocity(pop *f, int y, int x) {
 }
 
 
-
+#ifdef METHOD_STEPPING_AB2
+void collide(pop* f,pop* f_old,int n){
+#else
 void collide(pop* f,int n){
+#endif
+
   int x, y, pp;
-  my_double invtau;
+  my_double invtau , one_minus_invtau;
   pop f_eq;
 
 switch (n) {
  case 0:  /* This is fluid */
-   invtau = 1.0 / property.tau;  
+   invtau = 1.0 / property.tau;   
   break;
 #ifdef TEMPERATURE
  case 1:  /* This is temperature */
@@ -111,13 +115,28 @@ switch (n) {
 #endif
  } 
   
+ one_minus_invtau = (1.0 - invtau);
+
   for (y=1; y<NY+1; y++) {
     for (x=1; x<NX+1; x++) {
       
       f_eq=equilibrium(f,y,x);
       /* collision */
       for (pp=0; pp<9; pp++)
-	f[IDX(y,x)].p[pp] = f[IDX(y,x)].p[pp] - invtau * (f[IDX(y,x)].p[pp] - f_eq.p[pp]);
+#ifdef METHOD_STEPPING_AB2
+	/* original */	
+    //f[IDX(y,x)].p[pp] += -1.5*invtau * (f[IDX(y,x)].p[pp] - f_eq.p[pp]) + 0.5*invtau * (f_old[IDX(y,x)].p[pp] - f_eq.p[pp]);
+	/* compact */
+      f[IDX(y,x)].p[pp] += -0.5*invtau*(3.0*f[IDX(y,x)].p[pp]  - f_old[IDX(y,x)].p[pp] + 2.0*f_eq.p[pp]) ;
+      /* store old */
+      f_old[IDX(y,x)].p[pp] = f[IDX(y,x)].p[pp];
+#else
+      /* Euler Stepping */
+      /* original */
+	//	f[IDX(y,x)].p[pp] = f[IDX(y,x)].p[pp] - invtau * (f[IDX(y,x)].p[pp] - f_eq.p[pp]);
+      /* compact */
+	f[IDX(y,x)].p[pp] =  one_minus_invtau * f[IDX(y,x)].p[pp] + invtau * f_eq.p[pp];
+#endif
     }  
   }
 
@@ -224,18 +243,36 @@ void hydro_fields(int i){
 /*************************************/
 void check_mass(int i){
   int x, y;
-  my_double mass1; 
+  my_double mass1, mass2, mass3; 
   FILE *fmass;
 
   fmass = fopen("mass.dat","a");
-  mass1 = 0.0;
+  mass1 = mass2 = mass3 = 0.0;
 
   for (y=1; y<NY+1; y++) 
     for (x=1; x<NX+1; x++){ 
       mass1 += dens[IDX(y,x)];
     }
+ fprintf(fmass,"%d %g ",i,mass1);
 
-  fprintf(fmass,"%d %g\n",i,mass1);  
+#ifdef TEMPERATURE
+  for (y=1; y<NY+1; y++) 
+    for (x=1; x<NX+1; x++){ 
+      mass2 += tt[IDX(y,x)];
+    }
+ fprintf(fmass,"%g ",mass2); 
+#endif
+
+#ifdef SALT
+  for (y=1; y<NY+1; y++) 
+    for (x=1; x<NX+1; x++){ 
+      mass3 += ss[IDX(y,x)];
+    }
+ fprintf(fmass,"%g ",mass3); 
+#endif
+  
+ fprintf(fmass,"\n"); 
+
   fflush(fmass);
   fclose(fmass);
 }

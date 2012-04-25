@@ -42,6 +42,7 @@ void bct()
 #else
     */
     //rho = m(p[IDX(1,x)]);
+    //rhot =  tt[IDX(1,x)];
     rhot = t(g[IDX(1,x)]);
     ux = v[IDX(1,x)].vx;
     uy = v[IDX(1,x)].vy;
@@ -118,6 +119,7 @@ void bct()
 #else
     */
     //     rho = m(p[IDX(NY,x)]);
+    //rhot = tt[IDX(NY,x)];
      rhot = t(g[IDX(NY,x)]);
       ux = v[IDX(NY,x)].vx;
       uy = v[IDX(NY,x)].vy;

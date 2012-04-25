@@ -201,7 +201,7 @@ void assign_parameters(){
   dimensionless.Prandtl = property.nu/property.kappa_t;
   fprintf(stderr,"Prandtl %g\n",(double)dimensionless.Prandtl);
 #ifdef TEMPERATURE_BUOYANCY
-  dimensionless.Rayleigh_t = property.beta_t*property.gravity_y*property.deltaT*NY*NY*NY/(property.nu*property.kappa_t);
+  dimensionless.Rayleigh_t = property.beta_t*property.gravity_y*property.deltaT*pow((double)property.NY,3.0)/(property.nu*property.kappa_t);
   fprintf(stderr,"Thermal Rayleigh %g\n",(double)dimensionless.Rayleigh_t);
 #ifdef TEMPERATURE_MELTING
   dimensionless.Stefan= property.deltaT*property.specific_heat/property.latent_heat;
@@ -219,7 +219,7 @@ void assign_parameters(){
 #endif
 #ifdef SALT
 #ifdef SALT_BUOYANCY
-  dimensionless.Rayleigh_s = property.beta_s*property.gravity_y*property.deltaS*NY*NY*NY/(property.nu*property.kappa_s);
+  dimensionless.Rayleigh_s = property.beta_s*property.gravity_y*property.deltaS*pow((double)property.NY,3.0)/(property.nu*property.kappa_s);
   fprintf(stderr,"Solutal Rayleigh %g\n",(double)dimensionless.Rayleigh_s);
 #endif
 #endif
@@ -236,6 +236,11 @@ void allocate_fields(){
 #ifdef FLUID
   p  = (pop*) malloc(sizeof(pop)*(NX+2)*(NY+2)); 
  if(p == NULL){ fprintf(stderr,"Not enough memory to allocate p\n"); exit(-1);}
+
+#ifdef METHOD_STEPPING_AB2
+  p_old  = (pop*) malloc(sizeof(pop)*(NX+2)*(NY+2)); 
+ if(p_old == NULL){ fprintf(stderr,"Not enough memory to allocate p_old\n"); exit(-1);}
+#endif
 
   buffer  = (pop*) malloc(sizeof(pop)*(NX+2)*2); 
  if(buffer == NULL){ fprintf(stderr,"Not enough memory to allocate buffer\n"); exit(-1);}
@@ -262,6 +267,11 @@ void allocate_fields(){
   g  = (pop*) malloc(sizeof(pop)*(NX+2)*(NY+2)); 
  if(g == NULL){ fprintf(stderr,"Not enough memory to allocate g\n"); exit(-1);}
 
+#ifdef METHOD_STEPPING_AB2
+  g_old  = (pop*) malloc(sizeof(pop)*(NX+2)*(NY+2)); 
+ if(g_old == NULL){ fprintf(stderr,"Not enough memory to allocate g_old\n"); exit(-1);}
+#endif
+
   tt  = (my_double*) malloc(sizeof(my_double)*(NX+2)*(NY+2)); 
  if(tt == NULL){ fprintf(stderr,"Not enough memory to allocate tt\n"); exit(-1);}
 
@@ -283,6 +293,11 @@ void allocate_fields(){
 #ifdef SALT
   s  = (pop*) malloc(sizeof(pop)*(NX+2)*(NY+2)); 
  if(s == NULL){ fprintf(stderr,"Not enough memory to allocate g\n"); exit(-1);}
+
+#ifdef METHOD_STEPPING_AB2
+  s_old  = (pop*) malloc(sizeof(pop)*(NX+2)*(NY+2)); 
+ if(s_old == NULL){ fprintf(stderr,"Not enough memory to allocate s_old\n"); exit(-1);}
+#endif
 
   ss  = (my_double*) malloc(sizeof(my_double)*(NX+2)*(NY+2)); 
  if(ss == NULL){ fprintf(stderr,"Not enough memory to allocate ss\n"); exit(-1);}

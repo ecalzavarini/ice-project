@@ -90,7 +90,9 @@ void initial()
       for (x=0; x<NX+2; x++){ 
 	/* linear temperature gradient */
 	tt[IDX(y,x)] = ( (property.T_bot-property.T_ref) - (property.deltaT/NY)*(y-0.5) );
-	if(x<NX/2) tt[IDX(y,x)] += 1.e-5;
+#ifdef TEMPERATURE_INITIAL_PERTURBATION
+	if(x<NX/2){ tt[IDX(y,x)] += 1.e-4; }else{ tt[IDX(y,x)] -= 1.e-4; }
+#endif
 	/* on the populations */
 	for (pp = 0; pp < 9; pp++) 
 	  g[IDX(y,x)].p[pp] = wgt[pp]*tt[IDX(y,x)];
@@ -103,7 +105,9 @@ void initial()
 #ifdef SALT_INITIAL_LINEAR
 	/* linear salinity gradient */
 	ss[IDX(y,x)] = ( (property.S_bot-property.S_ref) - (property.deltaS/NY)*(y-0.5) );
-	if(x<NX/2) ss[IDX(y,x)] += 1.e-5;
+#ifdef SALT_INITIAL_PERTURBATION
+	if(x<NX/2){ ss[IDX(y,x)] += 1.e-5;}else{ ss[IDX(y,x)] -= 1.e-5; } 
+#endif
 	/* on the populations */
 	for (pp = 0; pp < 9; pp++)
 	  s[IDX(y,x)].p[pp] = wgt[pp]*ss[IDX(y,x)];

@@ -17,7 +17,7 @@ void melting(int i){
   hl = hs+Lf;
   Tl = hl/Cp;
 
-  if(i==0) fprintf(stderr,"Ts = %g \n Tl = %g\n",Ts, Tl); 
+  if(i==0) fprintf(stderr,"Ts = %g \n Tl = %g\n",(double)Ts, (double)Tl); 
 
   /* store previous fluid fraction */
   for (y=1; y<NY+1; y++) 
