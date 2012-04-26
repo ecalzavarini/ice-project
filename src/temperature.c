@@ -89,8 +89,8 @@ void bct()
     g[0][xp].p[6] = g[1][x].p[7] - g_eq.p[7] + wgt[6]*effDT;
     */
     g[IDX(0,x )].p[2] = g[IDX(1,x)].p[4] - g_eq.p[4] + g_eq_w.p[2]; 
-    g[IDX(0,xm)].p[5] = g[IDX(1,x)].p[7] - g_eq.p[7] + g_eq_w.p[5]; 
-    g[IDX(0,xp)].p[6] = g[IDX(1,x)].p[8] - g_eq.p[8] + g_eq_w.p[6];
+    g[IDX(0,xm)].p[5] = g[IDX(1,x)].p[8] - g_eq.p[8] + g_eq_w.p[5]; 
+    g[IDX(0,xp)].p[6] = g[IDX(1,x)].p[7] - g_eq.p[7] + g_eq_w.p[6];
 #else
     /* opposite */
     /*
@@ -107,6 +107,12 @@ void bct()
     g[IDX(0,x) ].p[2] = g[IDX(1,x)].p[4] - g_eq.p[4] + g_eq_w.p[2]; 
     g[IDX(0,xm)].p[5] = g[IDX(1,x)].p[7] - g_eq.p[7] + g_eq_w.p[5]; 
     g[IDX(0,xp)].p[6] = g[IDX(1,x)].p[8] - g_eq.p[8] + g_eq_w.p[6]; 
+#endif
+
+#ifdef EQUILIBRIUM 
+for (pp=0; pp<9; pp++){
+  g[IDX(0,x) ].p[pp] = g_eq_w.p[pp];
+ }
 #endif
 
     /* equilibrium distribution in y=NY */
@@ -162,8 +168,8 @@ void bct()
     g[NY+1][xp].p[7] = g[NY][x].p[6] - g_eq.p[6] + wgt[7]*effDT;
     */
     g[IDX(NY+1,x)].p[4] = g[IDX(NY,x)].p[2] - g_eq.p[2] + g_eq_w.p[4];  
-    g[IDX(NY+1,xm)].p[8] = g[IDX(NY,x)].p[6] - g_eq.p[6] + g_eq_w.p[8];  
-    g[IDX(NY+1,xp)].p[7] = g[IDX(NY,x)].p[5] - g_eq.p[5] + g_eq_w.p[7]; 
+    g[IDX(NY+1,xm)].p[8] = g[IDX(NY,x)].p[5] - g_eq.p[5] + g_eq_w.p[8];  
+    g[IDX(NY+1,xp)].p[7] = g[IDX(NY,x)].p[6] - g_eq.p[6] + g_eq_w.p[7]; 
 #else
     /* opposite */
     /*
@@ -181,6 +187,13 @@ void bct()
     g[IDX(NY+1,xm)].p[8] = g[IDX(NY,x)].p[6] - g_eq.p[6] + g_eq_w.p[8];  
     g[IDX(NY+1,xp)].p[7] = g[IDX(NY,x)].p[5] - g_eq.p[5] + g_eq_w.p[7]; 
 #endif    
+
+#ifdef EQUILIBRIUM 
+for (pp=0; pp<9; pp++){
+  g[IDX(NY+1,x)].p[pp] = g_eq_w.p[pp];
+ }
+#endif
+
   }
 #else  
   for (x=1; x<NX+1; x++) {
