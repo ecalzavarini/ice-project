@@ -76,6 +76,7 @@ void bct()
     */
 
     /* At bottom */
+#ifdef TEMPERATURE_BC_ISO_Y_BBACK
 #ifdef MIRROR
     /* mirror */
     /*
@@ -109,9 +110,11 @@ void bct()
     g[IDX(0,xp)].p[6] = g[IDX(1,x)].p[8] - g_eq.p[8] + g_eq_w.p[6]; 
 #endif
 
-#ifdef EQUILIBRIUM 
+#else /* #ifdef TEMPERATURE_BC_ISO_Y_BBACK*/
+     effDT =  ( (property.T_bot-property.T_ref) - rhot )*2.0 +  rhot;
 for (pp=0; pp<9; pp++){
-  g[IDX(0,x) ].p[pp] = g_eq_w.p[pp];
+  // g[IDX(0,x) ].p[pp] = g_eq_w.p[pp];
+     g[IDX(0,x)].p[pp] = effDT * wgt[pp];
  }
 #endif
 
@@ -156,6 +159,7 @@ for (pp=0; pp<9; pp++){
     */
 
     /* at top */
+#ifdef TEMPERATURE_BC_ISO_Y_BBACK
 #ifdef MIRROR
     /* mirror */
     /*
@@ -188,9 +192,11 @@ for (pp=0; pp<9; pp++){
     g[IDX(NY+1,xp)].p[7] = g[IDX(NY,x)].p[5] - g_eq.p[5] + g_eq_w.p[7]; 
 #endif    
 
-#ifdef EQUILIBRIUM 
+#else /* #ifdef TEMPERATURE_BC_ISO_Y_BBACK */
+ effDT =  ( (property.T_top-property.T_ref) - rhot )*2.0 +  rhot;
 for (pp=0; pp<9; pp++){
-  g[IDX(NY+1,x)].p[pp] = g_eq_w.p[pp];
+  //g[IDX(NY+1,x)].p[pp] = g_eq_w.p[pp];
+  g[IDX(NY+1,x)].p[pp] = effDT * wgt[pp];
  }
 #endif
 

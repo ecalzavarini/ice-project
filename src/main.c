@@ -36,6 +36,7 @@ int main(int argc, char** argv){
 
 #ifdef TEMPERATURE
      nusselt(itime,0);  /* compute heat flow and other global averages : 1st part */
+     //nusselt(itime,1);
 #endif
 
 #ifdef NON_NEWTON

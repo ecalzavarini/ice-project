@@ -53,6 +53,7 @@ void bcs()
 
 
     /* At bottom */
+#ifdef SALT_BC_ISO_Y_BBACK
 #ifdef MIRROR
     /* mirror */
     s[IDX(0,x )].p[2] = s[IDX(1,x)].p[4] - s_eq.p[4] + s_eq_w.p[2]; 
@@ -63,6 +64,13 @@ void bcs()
     s[IDX(0,x) ].p[2] = s[IDX(1,x)].p[4] - s_eq.p[4] + s_eq_w.p[2]; 
     s[IDX(0,xm)].p[5] = s[IDX(1,x)].p[7] - s_eq.p[7] + s_eq_w.p[5]; 
     s[IDX(0,xp)].p[6] = s[IDX(1,x)].p[8] - s_eq.p[8] + s_eq_w.p[6]; 
+#endif
+
+#else /* #ifdef SALT_BC_ISO_Y_BBACK*/
+     effDS =  ( (property.S_bot-property.S_ref) - rhos )*2.0 +  rhos;
+for (pp=0; pp<9; pp++){
+     s[IDX(0,x)].p[pp] = effDS * wgt[pp];
+ }
 #endif
 
     /* equilibrium distribution in y=NY */
@@ -86,6 +94,7 @@ void bcs()
     } 
 
     /* at top */
+#ifdef SALT_BC_ISO_Y_BBACK
 #ifdef MIRROR
     /* mirror */
     g[IDX(NY+1,x) ].p[4] = g[IDX(NY,x)].p[2] - g_eq.p[2] + g_eq_w.p[4];  
@@ -97,7 +106,15 @@ void bcs()
     s[IDX(NY+1,xm)].p[8] = s[IDX(NY,x)].p[6] - s_eq.p[6] + s_eq_w.p[8];  
     s[IDX(NY+1,xp)].p[7] = s[IDX(NY,x)].p[5] - s_eq.p[5] + s_eq_w.p[7]; 
 #endif    
+
+#else /* #ifdef SALT_BC_ISO_Y_BBACK*/
+     effDS =  ( (property.S_top-property.S_ref) - rhos )*2.0 +  rhos;
+for (pp=0; pp<9; pp++){
+     s[IDX(NY+1,x)].p[pp] = effDS * wgt[pp];
+ }
+#endif
   }
+
 #else
   for (x=1; x<NX+1; x++) {
   /* periodic bc at top and bottom */
