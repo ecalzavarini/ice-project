@@ -4,7 +4,9 @@ void nusselt(int tstep, int flag){
   FILE *fout;
   char fname[128];
   int x, y, yp,ym;
-  my_double Nusselt, nu, kappa;  
+  my_double Nusselt; 
+  my_double nu = 0.0;
+  my_double kappa = 0.0;  
   my_double tmp1,tmp2,tmp3, tmp4, tmp5, vt, v2, t1, t2 , dyt;
   my_double vx_y[NY] ,  vy_y[NY];
   my_double vx2_y[NY], vy2_y[NY];
@@ -14,9 +16,13 @@ void nusselt(int tstep, int flag){
   my_double  s_y[NY] , s2_y[NY];
   my_double lf_y[NY];
 
-  nu =property.nu;
-  kappa = property.kappa_t;
+#ifdef FLUID
+  nu = property.nu;
+#endif 
 
+#ifdef TEMPERATURE
+  kappa = property.kappa_t;
+#endif
 
   if(flag==0){
     // fprintf(stderr, "tstep %d, flag %d...", tstep, flag);
@@ -186,6 +192,7 @@ void print_fields(int tstep)
 
     /* Here dumps the populations */
 #ifdef DUMP_POP
+#ifdef FLUID
     for (pp=0; pp<9; pp++) {
       sprintf(fname,"%s/pop.%d.%d",OutDir,tstep,pp);
       fout = fopen(fname,"w");
@@ -198,7 +205,7 @@ void print_fields(int tstep)
       fclose(fout);
     }
 #endif
-
+#endif
 
 #ifdef FLUID
     /* Here dumps the velocity field */

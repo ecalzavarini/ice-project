@@ -85,10 +85,11 @@ int main(int argc, char** argv){
     melting(itime);
 #endif
 
+#ifdef FLUID
 #ifdef METHOD_FORCING_GUO
     apply_forcing();
 #endif
-
+#endif
 
     /*  Boundary conditions */  
 #ifdef FLUID   

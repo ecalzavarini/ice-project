@@ -13,7 +13,9 @@ void initial()
   Ts = property.T_solid;
 #endif
 
+#ifdef FLUID
   nu = property.nu;
+#endif
 
 #ifdef TEMPERATURE_BUOYANCY
   beta = property.beta_t;
@@ -73,13 +75,19 @@ void initial()
 	p[IDX(y,x)].p[7] *= m(p[IDX(y,x)]);
 #endif
 
+#ifdef FLUID
 #ifdef METHOD_FORCING_GUO
 	force[IDX(y,x)].x = force[IDX(y,x)].y = 0.0;
 #endif
       v[IDX(y,x)].vx = vx(p[IDX(y,x)]);
       v[IDX(y,x)].vy = vy(p[IDX(y,x)]);
       dens[IDX(y,x)] = m(p[IDX(y,x)]);
-
+#else
+      /* for better numerical accuracy */
+      v[IDX(y,x)].vx = 0.0; 
+      v[IDX(y,x)].vy = 0.0; 
+      dens[IDX(y,x)] = 1.0; //density is assumed to be 1
+#endif
 
       } /* end for on x, y*/   
   

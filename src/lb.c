@@ -100,9 +100,11 @@ void collide(pop* f,int n){
   pop f_eq;
 
 switch (n) {
+#ifdef FLUID
  case 0:  /* This is fluid */
    invtau = 1.0 / property.tau;   
   break;
+#endif
 #ifdef TEMPERATURE
  case 1:  /* This is temperature */
    invtau = 1.0 / property.tau_t;  
@@ -142,7 +144,7 @@ switch (n) {
 
 }
 
-
+#ifdef FLUID
 #ifdef METHOD_FORCING_GUO
 /* Discrete lattice effects on the forcing term in the lattice Boltzmann method */
 /* Zhaoli Guo, Chuguang Zheng, and Baochang Shi */
@@ -175,6 +177,7 @@ void apply_forcing()
 
     }
 }
+#endif
 #endif
 
 

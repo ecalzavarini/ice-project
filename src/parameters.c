@@ -196,31 +196,37 @@ void assign_parameters(){
 #endif 
 #endif
 
-#ifdef TEMPERATURE
+#ifdef TEMPERATURE 
+#ifdef FLUID
  fprintf(stderr,"\n -- DIMENSIONLESS CONTROL PARAMETERS -- \n");
   dimensionless.Prandtl = property.nu/property.kappa_t;
   fprintf(stderr,"Prandtl %g\n",(double)dimensionless.Prandtl);
 #ifdef TEMPERATURE_BUOYANCY
   dimensionless.Rayleigh_t = property.beta_t*property.gravity_y*property.deltaT*pow((double)property.NY,3.0)/(property.nu*property.kappa_t);
   fprintf(stderr,"Thermal Rayleigh %g\n",(double)dimensionless.Rayleigh_t);
+#endif
+#endif
 #ifdef TEMPERATURE_MELTING
   dimensionless.Stefan= property.deltaT*property.specific_heat/property.latent_heat;
   fprintf(stderr,"Stefan %g\n",(double)dimensionless.Stefan);
 #endif
 #endif
-#endif
 #ifdef SALT
+#ifdef FLUID
   dimensionless.Schmidt = property.nu/property.kappa_s;
   fprintf(stderr,"Schmidt %g\n",(double)dimensionless.Schmidt);
+#endif
 #endif
 #ifdef SALT && TEMPERATURE
   dimensionless.Lewis = property.kappa_t/property.kappa_s;
   fprintf(stderr,"Lewis %g\n",(double)dimensionless.Lewis);
 #endif
 #ifdef SALT
+#ifdef FLUID
 #ifdef SALT_BUOYANCY
   dimensionless.Rayleigh_s = property.beta_s*property.gravity_y*property.deltaS*pow((double)property.NY,3.0)/(property.nu*property.kappa_s);
   fprintf(stderr,"Solutal Rayleigh %g\n",(double)dimensionless.Rayleigh_s);
+#endif
 #endif
 #endif
  fprintf(stderr,"\n");
@@ -233,7 +239,7 @@ void assign_parameters(){
 }
 
 void allocate_fields(){
-#ifdef FLUID
+  //#ifdef FLUID
   p  = (pop*) malloc(sizeof(pop)*(NX+2)*(NY+2)); 
  if(p == NULL){ fprintf(stderr,"Not enough memory to allocate p\n"); exit(-1);}
 
@@ -261,7 +267,7 @@ void allocate_fields(){
   tau  = (my_double*) malloc(sizeof(my_double)*(NX+2)*(NY+2)); 
  if(tau == NULL){ fprintf(stderr,"Not enough memory to allocate tau\n"); exit(-1);}
 #endif
-#endif 
+ //#endif 
 
 #ifdef TEMPERATURE
   g  = (pop*) malloc(sizeof(pop)*(NX+2)*(NY+2)); 

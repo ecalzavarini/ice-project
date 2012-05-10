@@ -58,9 +58,9 @@ typedef struct {
   my_double Prandtl;
 #ifdef TEMPERATURE_BUOYANCY
   my_double Rayleigh_t;
+#endif
 #ifdef TEMPERATURE_MELTING
   my_double Stefan;
-#endif
 #endif
 #endif
 #ifdef SALT

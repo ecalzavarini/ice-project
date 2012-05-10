@@ -14,7 +14,7 @@ extern prop property;
 extern dimensionless_prop dimensionless;
 extern diag rbout;
 
-#ifdef FLUID
+//#ifdef FLUID
 /* Populations */
 extern pop *p;
 #ifdef METHOD_STEPPING_AB2
@@ -24,7 +24,7 @@ extern pop *buffer;
 extern velocity *v,*vold;
 extern my_double *dens;
 extern vector *force;
-#endif
+//#endif
 
 /* LB speeds & weights */
 extern my_double wgt[9] , cx[9] , cy[9]; 

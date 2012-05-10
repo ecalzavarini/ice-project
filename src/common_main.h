@@ -13,7 +13,7 @@ prop property;
 dimensionless_prop dimensionless;
 diag rbout;
 
-#ifdef FLUID
+//#ifdef FLUID
 /* Populations */
 pop *p;
 #ifdef METHOD_STEPPING_AB2
@@ -23,7 +23,7 @@ pop *buffer;
 velocity *v,*vold;
 my_double *dens;
 vector *force;
-#endif
+//#endif
 
 /* LB speeds & weights */
 my_double wgt[9] , cx[9] , cy[9]; 
