@@ -104,6 +104,14 @@ void initial()
 	/* on the populations */
 	for (pp = 0; pp < 9; pp++) 
 	  g[IDX(y,x)].p[pp] = wgt[pp]*tt[IDX(y,x)];
+
+#ifdef TEMPERATURE_INITIAL_CONSTANT
+        /* constant salinity */
+        tt[IDX(y,x)] = property.T_top;
+        /* on the populations */
+        for (pp = 0; pp < 9; pp++)
+          g[IDX(y,x)].p[pp] = wgt[pp]*tt[IDX(y,x)];
+#endif
       }  
 #endif
 
@@ -135,7 +143,11 @@ void initial()
   /* 1 is fluid , 0 is solid */
   for (y=0; y<NY+2; y++)
     for (x=0; x<NX+2; x++){ 
+#ifdef TEMPERATURE_MELTING_INITIAL_SOLID
+      ll[IDX(y,x)]=llold[IDX(y,x)]=0.0;
+#else
       ll[IDX(y,x)]=llold[IDX(y,x)]=1.0;
+#endif
       //      if(y>NY/2) ll[IDX(y,x)]=llold[IDX(y,x)]=1.0;
     }  
 #ifdef SALT
