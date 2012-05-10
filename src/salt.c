@@ -116,7 +116,7 @@ for (pp=0; pp<9; pp++){
   }
 
 #else
-  for (x=1; x<NX+1; x++) {
+  for (x=0; x<NX+2; x++) {
   /* periodic bc at top and bottom */
     s[IDX(0,x)] = s[IDX(1,x)];
     s[IDX(NY+1,x)] = s[IDX(NY,x)];
@@ -124,7 +124,7 @@ for (pp=0; pp<9; pp++){
 #endif
 
   /* periodic bc at left and right */
-  for (y=1; y<NY+1; y++) {
+  for (y=0; y<NY+2; y++) {
     s[IDX(y,0)] = s[IDX(y,NX)];
     s[IDX(y,NX+1)] = s[IDX(y,1)];
   }

@@ -202,7 +202,7 @@ for (pp=0; pp<9; pp++){
 
   }
 #else  
-  for (x=1; x<NX+1; x++) {
+  for (x=0; x<NX+2; x++) {
   /* periodic bc at top and bottom */
     g[IDX(0,x)] = g[IDX(1,x)];
     g[IDX(NY+1,x)] = g[IDX(NY,x)];
@@ -210,7 +210,7 @@ for (pp=0; pp<9; pp++){
 #endif
 
   /* periodic bc at left and right */
-  for (y=1; y<NY+1; y++) {
+  for (y=0; y<NY+2; y++) {
     g[IDX(y,   0)] = g[IDX(y,NX)];
     g[IDX(y,NX+1)] = g[IDX(y, 1)];
   }

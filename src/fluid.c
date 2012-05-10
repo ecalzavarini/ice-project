@@ -74,7 +74,7 @@ void bc()
 #endif
   }
 #else
-  for (x=1; x<NX+1; x++) {
+  for (x=0; x<NX+2; x++) {
 /* periodic bc at top and bottom */
     p[IDX(0,x)] = p[IDX(NY,x)];
     p[IDX(NY+1,x)] = p[IDX(1,x)];
@@ -131,7 +131,7 @@ void bc()
 #endif
   }
 #else  
-  for (y=1; y<NY+1; y++) {
+  for (y=0; y<NY+2; y++) {
   /* periodic bc at left and right */
     p[IDX(y,0)] = p[IDX(y,NX)];
     p[IDX(y,NX+1)] = p[IDX(y,1)];
