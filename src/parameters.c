@@ -268,6 +268,13 @@ void allocate_fields(){
  if(tau == NULL){ fprintf(stderr,"Not enough memory to allocate tau\n"); exit(-1);}
 #endif
  //#endif 
+#ifdef FLUID_RHEOLOGY_POLYMER
+  gradv  = (tensor*) malloc(sizeof(vector)*(NX+2)*(NY+2)); 
+ if(gradv == NULL){ fprintf(stderr,"Not enough memory to allocate gradv\n"); exit(-1);}
+
+  conf  = (tensor*) malloc(sizeof(vector)*(NX+2)*(NY+2)); 
+ if(conf == NULL){ fprintf(stderr,"Not enough memory to allocate conf\n"); exit(-1);}
+#endif
 
 #ifdef TEMPERATURE
   g  = (pop*) malloc(sizeof(pop)*(NX+2)*(NY+2)); 

@@ -61,6 +61,11 @@ void initial()
 #endif
 #endif
 
+#ifdef TEMPERATURE_INITIAL_CONSTANT
+  for (pp = 0; pp < 9; pp++)
+	p[IDX(y,x)].p[pp] = wgt[pp];
+#endif
+
 
 #ifdef POISEUILLE
 	/* Poiseuille profile v_x(y) = 1/2 * (gradP / nu) * y * (L_y - y) */

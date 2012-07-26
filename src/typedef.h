@@ -84,6 +84,13 @@ typedef struct {
   my_double y;
 } vector;
 
+typedef struct {
+  my_double xx;
+  my_double xy;
+  my_double yx;
+  my_double yy;
+} tensor;
+
 
 typedef struct {
   my_double vx, vy, rho;
