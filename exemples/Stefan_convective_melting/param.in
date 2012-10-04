@@ -1,0 +1,26 @@
+
+NX 101
+NY 100
+max_step 100001
+time_dump_field 1000
+
+tau 1.0
+tau_t 1.0
+tau_s 0.5005
+
+T_bot   1.0
+T_top   0.0
+T_ref 0.0
+beta_t 0.1
+beta2_t 0.0
+gravity_y 0.1
+
+S_bot  1.0
+S_top  0.0
+S_ref  0.0
+beta_s -0.001
+
+T_solid 0.0 
+specific_heat 1.
+latent_heat 1.
+liquidus_slope -1.02
