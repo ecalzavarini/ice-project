@@ -65,6 +65,9 @@ extern my_double *ll,*llold, *hh;
 extern my_double *tau;
 #endif
 
+#ifdef FLUID_POROSITY
+extern my_double *porosity;
+#endif
 
 
 

@@ -275,6 +275,10 @@ void allocate_fields(){
   conf  = (tensor*) malloc(sizeof(vector)*(NX+2)*(NY+2)); 
  if(conf == NULL){ fprintf(stderr,"Not enough memory to allocate conf\n"); exit(-1);}
 #endif
+#ifdef FLUID_POROSITY
+ porosity  = (my_double*) malloc(sizeof(my_double)*(NX+2)*(NY+2));
+ if(porosity == NULL){ fprintf(stderr,"Not enough memory to allocate porosity\n"); exit(-1);}
+#endif
 
 #ifdef TEMPERATURE
   g  = (pop*) malloc(sizeof(pop)*(NX+2)*(NY+2)); 

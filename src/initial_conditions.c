@@ -150,6 +150,15 @@ void initial()
     for (x=0; x<NX+2; x++){ 
 #ifdef TEMPERATURE_MELTING_INITIAL_SOLID
       ll[IDX(y,x)]=llold[IDX(y,x)]=0.0;
+#ifdef TEMPERATURE_MELTING_INITIAL_SOLID_CAVITY
+  for (y=0; y<NY+2; y++){
+    for (x=0; x<NX+2; x++) 
+      /* cube */
+      // if(y<=20 && fabs((float)x-(float)NX/2)<=10)  ll[IDX(y,x)]=llold[IDX(y,x)]=1.0;
+      /* half a circle */
+      if( y*y + pow((float)x-(float)NX/2,2.0) <= 900)  ll[IDX(y,x)]=llold[IDX(y,x)]=1.0;
+  }
+#endif
 #else
       ll[IDX(y,x)]=llold[IDX(y,x)]=1.0;
 #endif

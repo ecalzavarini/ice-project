@@ -62,6 +62,36 @@ pop equilibrium(pop *f, int y, int x) {
       return f_eq;    
 }
 
+#ifdef FLUID_POROSITY
+pop equilibrium_porosity(pop *f, int y, int x) {
+  int pp;
+  my_double ux, uy;
+  my_double rho,rhof;
+  my_double cu, u2 , inveps;
+  pop f_eq;
+
+  rhof = m(f[IDX(y,x)]);
+  //rho = m(p[IDX(y,x)]);                                                                                                 
+
+  ux = v[IDX(y,x)].vx;
+  uy = v[IDX(y,x)].vy;
+
+  u2 = (ux*ux +  uy*uy);
+
+  inveps= 1./porosity[IDX(y,x)];
+
+  /* equilibrium distribution */
+  for (pp=0; pp<9; pp++){
+    cu = (cx[pp]*ux + cy[pp]*uy);
+    //      f_eq.p[pp] = rhof * wgt[pp] * (1.0 + 3.0*cu  + 4.5*cu*cu - 1.5*u2 );                                          
+    f_eq.p[pp] = rhof * wgt[pp] * (1.0 + invcs2*cu  + invtwocs4*inveps*cu*cu - invtwocs2*inveps*u2 );
+  }
+
+  return f_eq;
+}
+#endif
+
+
 
 pop equilibrium_opposite_velocity(pop *f, int y, int x) {
   int pp;
@@ -202,6 +232,22 @@ void hydro_fields(int i){
       v[IDX(y,x)].vx = vx(p[IDX(y,x)])/dens[IDX(y,x)];
       v[IDX(y,x)].vy = vy(p[IDX(y,x)])/dens[IDX(y,x)];
       #endif
+#endif
+
+#ifdef FLUID_POROSITY
+      /* following Guo & Zhao , PHYSICAL REVIEW E 66, 036304 (2002) */
+#ifdef METHOD_FORCING_GUO
+      eps=porosity[IDX(y,x)];
+      vx_temp = ( vx(p[IDX(y,x)]) + 0.5*eps*force[IDX(y,x)].x )/dens[IDX(y,x)];
+      vy_temp = ( vy(p[IDX(y,x)]) + 0.5*eps*force[IDX(y,x)].y )/dens[IDX(y,x)];
+      v_amp = sqrt(vx_temp*vx_temp + vy_temp*vy_temp); 
+      c0 = 0.5 + 0.25*porperty.nu*(1-eps*eps)/(eps*eps);
+      c1 = 0.0; 	
+      v[IDX(y,x)].vx = vx_temp/(c0+sqrt(c0*c0 + c1*v_amp));
+      v[IDX(y,x)].vy = vy_temp/(c0+sqrt(c0*c0 + c1*v_amp));
+      /* set to zero after computing velocity */
+      force[IDX(y,x)].x = force[IDX(y,x)].y = 0.0;
+#endif
 #endif
 
 #ifdef TEMPERATURE

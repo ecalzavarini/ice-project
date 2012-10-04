@@ -63,7 +63,9 @@ my_double *ll,*llold, *hh;
 my_double *tau;
 #endif
 
-
+#ifdef FLUID_POROSITY
+my_double  *porosity;
+#endif
 
 
 
