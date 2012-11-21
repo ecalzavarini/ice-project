@@ -1,0 +1,6 @@
+NX 101
+NY 50
+max_step 100001
+time_dump_field 1000
+
+tau 1.0
