@@ -85,6 +85,10 @@ int main(int argc, char** argv){
     melting(itime);
 #endif
 
+#ifdef FLUID_RHEOLOGY_POLYMER
+    polymer_conformation_equation();
+#endif
+
 #ifdef FLUID
 #ifdef METHOD_FORCING_GUO
     apply_forcing();
