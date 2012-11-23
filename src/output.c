@@ -26,9 +26,16 @@ void nusselt(int tstep, int flag){
 
   if(flag==0){
     // fprintf(stderr, "tstep %d, flag %d...", tstep, flag);
-    rbout.vx = rbout.vy = rbout.t = 0.0;
-    rbout.vx2 = rbout.vy2 = rbout.t2 = 0.0;
-    rbout.nusselt = rbout.dyt =  rbout.vyt = rbout.rho = 0.0;
+#ifdef FLUID
+    rbout.vx = rbout.vy = 0.0; 
+    rbout.vx2 = rbout.vy2 =0.0; 
+    rbout.rho = 0.0;
+#endif
+#ifdef TEMPERATURE
+    rbout.t = 0.0;
+    rbout.t2 = 0.0;
+    rbout.nusselt = rbout.dyt =  rbout.vyt = 0.0;
+#endif
 #ifdef SALT
     rbout.s = rbout.s2 = 0.0;
 #endif
@@ -55,7 +62,8 @@ void nusselt(int tstep, int flag){
     yp=y+1;
     ym=y-1;
     for (x=1; x<NX+1; x++){
-      
+
+#ifdef FLUID      
 #ifdef METHOD_FORCING_GUO      
       tmp1 = (vx(p[IDX(y,x)]) + 0.5*force[IDX(y,x)].x)/m(p[IDX(y,x)]); 
       tmp2 = (vy(p[IDX(y,x)]) + 0.5*force[IDX(y,x)].y)/m(p[IDX(y,x)]); 
@@ -65,25 +73,35 @@ void nusselt(int tstep, int flag){
       tmp1 = vx(p[IDX(y,x)])/m(p[IDX(y,x)]);
       tmp2 = vy(p[IDX(y,x)])/m(p[IDX(y,x)]);     
 #endif
+#endif
 
+#ifdef TEMPERATURE
       tmp3 = t(g[IDX(y,x)]);
+#endif
+
 #ifdef SALT
       tmp4 = t(s[IDX(y,x)]);
 #endif
 #ifdef TEMPERATURE_MELTING
       tmp5 = ll[IDX(y,x)];
 #endif
-      rbout.vyt +=  tmp2*tmp3;  vyt_y[y-1] +=  tmp2*tmp3;
+
+
+#ifdef FLUID
       rbout.vx2 +=  tmp1*tmp1;  vx2_y[y-1] +=  tmp1*tmp1;
       rbout.vy2 +=  tmp2*tmp2;  vy2_y[y-1] +=  tmp2*tmp2;
-      rbout.t2  +=  tmp3*tmp3;  t2_y[y-1]  +=  tmp3*tmp3;
       rbout.vx +=  tmp1;        vx_y[y-1] +=  tmp1;
       rbout.vy +=  tmp2;        vy_y[y-1] +=  tmp2;
-      rbout.t  +=  tmp3;        t_y[y-1]  +=  tmp3; 
       rbout.rho += m(p[IDX(y,x)]) ;        rho_y[y-1]  +=  m(p[IDX(y,x)]);   
+#endif
+#ifdef TEMPERATURE
+     rbout.vyt +=  tmp2*tmp3;  vyt_y[y-1] +=  tmp2*tmp3;
+     rbout.t2  +=  tmp3*tmp3;  t2_y[y-1]  +=  tmp3*tmp3;
+     rbout.t  +=  tmp3;        t_y[y-1]  +=  tmp3;
       if(y==1){  rbout.dyt += (t(g[IDX(yp,x)]) - property.deltaT/2.0)/(1.5);  dyt_y[y-1] += (t(g[IDX(yp,x)]) - property.deltaT/2.0)/(1.5); }
       if(y==NY){ rbout.dyt += (-property.deltaT/2.0  - t(g[IDX(ym,x)]))/(1.5); dyt_y[y-1] += (-property.deltaT/2.0  - t(g[IDX(ym,x)]))/(1.5); }
       if(y>1 && y<NY){ rbout.dyt += 0.5*(t(g[IDX(yp,x)])-t(g[IDX(ym,x)])); dyt_y[y-1] += 0.5*(t(g[IDX(yp,x)])-t(g[IDX(ym,x)])); }
+#endif
 
 #ifdef SALT
       rbout.s  += tmp4;    s_y[y-1]  += tmp4;
@@ -103,15 +121,19 @@ void nusselt(int tstep, int flag){
 
   if(flag==1){
     // fprintf(stderr, "flag %d, tstep %d\n", flag, tstep);
-    rbout.nusselt = (rbout.vyt - property.kappa_t*rbout.dyt)/(property.kappa_t*property.deltaT/(my_double)NY);
-    rbout.nusselt /= (2.0*NX*NY);
+#ifdef FLUID
     rbout.vx2 /= 2.0*NX*NY;
     rbout.vy2 /= 2.0*NX*NY;
-    rbout.t2 /= 2.0*NX*NY;
-    rbout.t /= 2.0*NX*NY;
     rbout.rho /= 2.0*NX*NY;
     rbout.vx /= 2.0*NX*NY;
     rbout.vy /= 2.0*NX*NY;
+#endif
+#ifdef TEMPERATURE
+    rbout.nusselt = (rbout.vyt - property.kappa_t*rbout.dyt)/(property.kappa_t*property.deltaT/(my_double)NY);
+    rbout.nusselt /= (2.0*NX*NY);
+    rbout.t2 /= 2.0*NX*NY;
+    rbout.t /= 2.0*NX*NY;
+#endif
 #ifdef SALT
     rbout.s  /= 2.0*NX*NY;
     rbout.s2 /= 2.0*NX*NY;
@@ -120,16 +142,20 @@ void nusselt(int tstep, int flag){
     rbout.lf /= 2.0*NX*NY; 
 #endif
     for (y=1; y<NY+1; y++){
-      dyt_y[y-1] /= 2.0*NX;
-      vyt_y[y-1] /= 2.0*NX;
+#ifdef FLUID
       vx_y[y-1] /= 2.0*NX;
       vy_y[y-1] /= 2.0*NX;
-      t_y[y-1] /= 2.0*NX;
-      nusselt_y[y-1] = (vyt_y[y-1] - property.kappa_t*dyt_y[y-1])/(property.kappa_t*property.deltaT/(my_double)NY); 
       rho_y[y-1] /= 2.0*NX;
       vx2_y[y-1] /= 2.0*NX;
       vy2_y[y-1] /= 2.0*NX;
+#endif
+#ifdef TEMPERATURE
+      dyt_y[y-1] /= 2.0*NX;
+      vyt_y[y-1] /= 2.0*NX;
       t2_y[y-1] /= 2.0*NX;
+      t_y[y-1] /= 2.0*NX;
+      nusselt_y[y-1] = (vyt_y[y-1] - property.kappa_t*dyt_y[y-1])/(property.kappa_t*property.deltaT/(my_double)NY); 
+#endif     
 #ifdef SALT
       s_y[y-1]  /= 2.0*NX;
       s2_y[y-1] /= 2.0*NX;
@@ -139,6 +165,20 @@ void nusselt(int tstep, int flag){
 #endif
     }
 
+
+#ifdef FLUID
+    sprintf(fname,"velocity.dat");
+    fout = fopen(fname,"a");
+    fprintf(fout,"%d %e %e %e %e %e\n",tstep, (double)rbout.vx2 , (double)rbout.vy2, (double)rbout.vx, (double)rbout.vy,(double)rbout.rho);
+    fclose(fout);
+
+    sprintf(fname,"velocity_y.dat");
+    fout = fopen(fname,"w");
+    for (y=1; y<NY+1; y++) fprintf(fout,"%d %e %e %e %e %e\n",y, (double)vx_y[y-1], (double)vy_y[y-1], (double)rho_y[y-1],  (double)vx2_y[y-1], (double)vy2_y[y-1]);
+    fclose(fout);
+#endif
+
+#ifdef TEMPERATURE
     sprintf(fname,"nusselt.dat");
     fout = fopen(fname,"a");
     fprintf(fout,"%d %e %e %e %e %e %e %e %e\n",tstep, (double)rbout.nusselt, (double)rbout.vx2 , (double)rbout.vy2, (double)rbout.t2 , 
@@ -149,7 +189,7 @@ void nusselt(int tstep, int flag){
     fout = fopen(fname,"w");
     for (y=1; y<NY+1; y++) fprintf(fout,"%d %e %e %e %e %e %e %e %e\n",y, (double)nusselt_y[y-1], (double)vx_y[y-1], (double)vy_y[y-1], (double)t_y[y-1], (double)rho_y[y-1],  (double)vx2_y[y-1], (double)vy2_y[y-1], (double)t2_y[y-1]);
     fclose(fout);
- 
+#endif 
 
 #ifdef SALT
     sprintf(fname,"salt.dat");

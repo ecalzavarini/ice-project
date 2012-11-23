@@ -18,6 +18,9 @@ typedef struct {
 #ifdef FLUID
   my_double tau;
   my_double nu;
+#ifdef FLUID_FORCING_POISEUILLE
+  my_double gradP;
+#endif
 #endif
 #ifdef TEMPERATURE
   my_double tau_t;

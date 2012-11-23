@@ -122,6 +122,12 @@ void assign_parameters(){
   fprintf(stderr,"Properties:\ntau %g\n",(double)property.tau);
   property.nu = (property.tau - 0.5)/3.0;
   fprintf(stderr,"viscosity %g\n",(double)property.nu);
+#ifdef FLUID_FORCING_POISEUILLE
+  fprintf(stderr,"YES <- FLUID_FORCING_POISEUILLE\n");
+  sprintf(name,"gradP");
+  property.gradP = read_parameter(name);
+  fprintf(stderr,"Properties:\ngradP %g\n",(double)property.gradP);
+#endif
 #endif
 
 #ifdef TEMPERATURE

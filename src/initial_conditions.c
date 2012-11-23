@@ -3,7 +3,7 @@
 void initial() 
 {
   int x, y, pp;
-  my_double rho,nu;
+  my_double rho,nu,gradP;
   my_double  usq, vsq, u2, v2;
   my_double ui, vi, sumsq, sumsq2, uv;
   my_double Ts;
@@ -15,6 +15,9 @@ void initial()
 
 #ifdef FLUID
   nu = property.nu;
+#ifdef FLUID_FORCING_POISEUILLE
+  gradP=property.gradP;
+#endif
 #endif
 
 #ifdef TEMPERATURE_BUOYANCY
@@ -67,7 +70,7 @@ void initial()
 #endif
 
 
-#ifdef POISEUILLE
+#ifdef FLUID_INITIAL_POISEUILLE
 	/* Poiseuille profile v_x(y) = 1/2 * (gradP / nu) * y * (L_y - y) */
 	/* v_x(max) = 1/8 * (gradP / nu) * L_y^2 */
 	//p[y][x].p[pp] = cx[pp]*wgt[pp]*(0.5*gradP/nu) * ((my_double)y-0.5) * ((my_double)NY-((my_double)y-0.5));

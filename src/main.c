@@ -34,7 +34,7 @@ int main(int argc, char** argv){
     print_fields(itime);    
     check_mass(itime);
 
-#ifdef TEMPERATURE
+#if defined(FLUID) || defined(TEMPERATURE)
      nusselt(itime,0);  /* compute heat flow and other global averages : 1st part */
      //nusselt(itime,1);
 #endif
@@ -108,7 +108,7 @@ int main(int argc, char** argv){
       bcs();
 #endif
 
-#ifdef TEMPERATURE
+#if defined(FLUID) || defined(TEMPERATURE)
       nusselt(itime,1); 
 #endif
 
