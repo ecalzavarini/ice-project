@@ -1,8 +1,9 @@
-NX 101
-NY 50
+NX 1600
+NY 400
 max_step 100001
 time_dump_field 2000
 
-tau 1.0
-gradP 1.e-6
+tau 0.8
+gradP 1.0e-4
+
 

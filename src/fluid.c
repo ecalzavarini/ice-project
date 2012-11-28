@@ -165,16 +165,16 @@ void bc()
 
 #ifdef FLUID_FORCING_POISEUILLE
 void poiseuille_forc(){
-  double ff_true = 2.5*(1./8.)*property.gradP/6.0 *NY*NY; //= 1.e-6;
+  double ff_true = property.gradP/6.0; //= 1.e-6;
   int x, y;
 
 #ifdef METHOD_FORCING_GUO
   for (y=1; y<NY+1; y++)
     for (x=1; x<NX+1; x++) {
-	force[IDX(y,x)].x += ff_true;
+      force[IDX(y,x)].x += ff_true;
     }
 #else
-  ff_true = gradP/6.0;
+  ff_true = (1./3.)*property.gradP/6.0;
   for (y=1; y<NY+1; y++)
     for (x=1; x<NX+1; x++) {
       p[IDX(y,x)].p[1] += ff_true;

@@ -4,22 +4,11 @@ max_step 100001
 time_dump_field 1000
 
 tau 1.0
-tau_t 0.54
-tau_s 0.5005
+tau_t 1.0
 
-T_bot  -1.0
-T_top   1.0
+T_bot   1.0
+T_top   0.0
 T_ref 0.0
-beta_t -0.1
+beta_t  0.05
 beta2_t 0.0
-gravity_y 0.015
-
-S_bot  1.0
-S_top  0.0
-S_ref  0.0
-beta_s -0.001
-
-T_solid 0.0 
-specific_heat 0.1
-latent_heat 10.
-liquidus_slope -1.02
+gravity_y 0.01

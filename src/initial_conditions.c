@@ -8,6 +8,8 @@ void initial()
   my_double ui, vi, sumsq, sumsq2, uv;
   my_double Ts;
   my_double beta, betas, gravity_y;
+  pop p_eq;
+  my_double fn,kn;
 
 #ifdef TEMPERATURE_MELTING
   Ts = property.T_solid;
@@ -69,18 +71,29 @@ void initial()
 	p[IDX(y,x)].p[pp] = wgt[pp];
 #endif
 
-
+#ifdef FLUID
 #ifdef FLUID_INITIAL_POISEUILLE
 	/* Poiseuille profile v_x(y) = 1/2 * (gradP / nu) * y * (L_y - y) */
 	/* v_x(max) = 1/8 * (gradP / nu) * L_y^2 */
 	//p[y][x].p[pp] = cx[pp]*wgt[pp]*(0.5*gradP/nu) * ((my_double)y-0.5) * ((my_double)NY-((my_double)y-0.5));
-	p[IDX(y,x)].p[3] =   wgt[3]*(0.5*gradP/nu) * ((my_double)y-0.5) * ((my_double)NY-((my_double)y-0.5));
-	p[IDX(y,x)].p[6] =   wgt[6]*(0.5*gradP/nu) * ((my_double)y-0.5) * ((my_double)NY-((my_double)y-0.5));
-	p[IDX(y,x)].p[7] =   wgt[7]*(0.5*gradP/nu) * ((my_double)y-0.5) * ((my_double)NY-((my_double)y-0.5));
 
+	/* horizontal */	
+
+        p[IDX(y,x)].p[1] = wgt[1]*(0.5*gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5)) *(5./8.); 
+	p[IDX(y,x)].p[5] = wgt[5]*(0.5*gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5)) *(5./8.);
+	p[IDX(y,x)].p[8] = wgt[8]*(0.5*gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5)) *(5./8.);
+	p[IDX(y,x)].p[6] = -wgt[6]*(0.5*gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5)) *(5./8.); 
+	p[IDX(y,x)].p[3] = -wgt[3]*(0.5*gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5)) *(5./8.); 
+	p[IDX(y,x)].p[7] = -wgt[7]*(0.5*gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5)) *(5./8.);
+	
+	p[IDX(y,x)].p[1] *= m(p[IDX(y,x)]);
+	p[IDX(y,x)].p[5] *= m(p[IDX(y,x)]);
+	p[IDX(y,x)].p[8] *= m(p[IDX(y,x)]);
 	p[IDX(y,x)].p[3] *= m(p[IDX(y,x)]);
 	p[IDX(y,x)].p[6] *= m(p[IDX(y,x)]);
 	p[IDX(y,x)].p[7] *= m(p[IDX(y,x)]);
+	
+#endif
 #endif
 
 #ifdef FLUID
@@ -96,11 +109,54 @@ void initial()
       v[IDX(y,x)].vy = 0.0; 
       dens[IDX(y,x)] = 1.0; //density is assumed to be 1
 #endif
-
       } /* end for on x, y*/   
   
+#ifdef FLUID
+#ifdef FLUID_INITIAL_PERTURBATION
+/*********************************************                                                                                                    
+ *         x  y                               *
+ *  0    (+0,+0)         6    2    5          *
+ *  1    (+1,+0)          \   |   /           *
+ *  2    (+0,+1)           \  |  /            *
+ *  3    (-1,+0)            \ | /             *
+ *  4    ( 0,-1)      3 <---- 0 ----> 1       *
+ *  5    (+1,+1)            / | \             *
+ *  6    (-1,+1)           /  |  \            *
+ *  7    (-1,-1)          /   |   \           *
+ *  8    (+1,-1)         7    4    8          * 
+ *                                            *
+ *********************************************/
+    fn=0.1;
+    kn=10.0; //must be an integer
+    for (y=0; y<NY+2; y++)
+      for (x=0; x<NX+2; x++){ 
+	
+	//kn=ceil(x/NY)*2.0;
+	fn=sin(2.*3.14*x/NX)*1.0;
+	/* horizontal */	
 
-  
+	p[IDX(y,x)].p[1] += wgt[1]*fn*sin(kn*2.*3.14*y/NY); 
+	p[IDX(y,x)].p[5] += wgt[5]*fn*sin(kn*2.*3.14*y/NY); 
+	p[IDX(y,x)].p[8] += wgt[8]*fn*sin(kn*2.*3.14*y/NY); 
+	p[IDX(y,x)].p[6] += -wgt[6]*fn*sin(kn*2.*3.14*y/NY); 
+	p[IDX(y,x)].p[3] += -wgt[3]*fn*sin(kn*2.*3.14*y/NY); 
+	p[IDX(y,x)].p[7] += -wgt[7]*fn*sin(kn*2.*3.14*y/NY); 
+	
+
+	/* veritcal */	
+
+	p[IDX(y,x)].p[6] += wgt[6]*fn*sin(kn*2.*3.14*x/NX); 
+	p[IDX(y,x)].p[2] += wgt[2]*fn*sin(kn*2.*3.14*x/NX);  
+	p[IDX(y,x)].p[5] += wgt[5]*fn*sin(kn*2.*3.14*x/NX); 
+	p[IDX(y,x)].p[7] += -wgt[7]*fn*sin(kn*2.*3.14*x/NX); 
+	p[IDX(y,x)].p[4] += -wgt[4]*fn*sin(kn*2.*3.14*x/NX);  
+	p[IDX(y,x)].p[8] += -wgt[8]*fn*sin(kn*2.*3.14*x/NX); 
+	
+
+      } /* end for on x, y*/  
+#endif
+#endif   
+
 #ifdef TEMPERATURE
     for (y=0; y<NY+2; y++)
       for (x=0; x<NX+2; x++){ 

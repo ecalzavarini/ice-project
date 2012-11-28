@@ -169,7 +169,7 @@ void nusselt(int tstep, int flag){
 #ifdef FLUID
     sprintf(fname,"velocity.dat");
     fout = fopen(fname,"a");
-    fprintf(fout,"%d %e %e %e %e %e\n",tstep, (double)rbout.vx2 , (double)rbout.vy2, (double)rbout.vx, (double)rbout.vy,(double)rbout.rho);
+    fprintf(fout,"%d %e %e %e %e %e\n",tstep, (double)rbout.vx, (double)rbout.vy,(double)rbout.rho, (double)rbout.vx2 , (double)rbout.vy2);
     fclose(fout);
 
     sprintf(fname,"velocity_y.dat");
