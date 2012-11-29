@@ -265,3 +265,18 @@ void buoyancy()
 }
 #endif
 #endif
+
+
+#ifdef TEMPERATURE_FORCING
+void temperature_forcing() 
+{
+  int x , y, pp; 
+  my_double internal_heat = 5.333333e-4;
+
+  for (y=1; y<NY+1; y++)
+    for (x=1; x<NX+1; x++){
+      for (pp=0; pp<9; pp++) g[IDX(y,x)].p[pp] += wgt[pp]*internal_heat;
+    }
+
+}
+#endif

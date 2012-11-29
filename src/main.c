@@ -85,6 +85,12 @@ int main(int argc, char** argv){
     melting(itime);
 #endif
 
+#ifdef TEMPERATURE
+#ifdef TEMPERATURE_FORCING
+    temperature_forcing();
+#endif
+#endif
+
 #ifdef FLUID_RHEOLOGY_POLYMER
     polymer_conformation_equation();
 #endif

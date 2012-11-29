@@ -1,0 +1,14 @@
+NX 101
+NY 50
+max_step 100001
+time_dump_field 1000
+
+tau 1.0
+tau_t 1.0
+
+T_bot   0.0
+T_top   0.0
+T_ref 0.0
+beta_t  0.05
+beta2_t 0.0
+gravity_y 0.01
