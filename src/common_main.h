@@ -24,6 +24,7 @@ velocity *v,*vold;
 my_double *dens;
 vector *force;
 //#endif
+tensor *gradv;
 
 /* LB speeds & weights */
 my_double wgt[9] , cx[9] , cy[9]; 

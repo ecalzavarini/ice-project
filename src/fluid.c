@@ -1,4 +1,5 @@
 #include "common_object.h"
+#include "functions.h"
 
 void bc() 
 {
@@ -164,9 +165,11 @@ void bc()
 
 
 #ifdef FLUID_FORCING_POISEUILLE
-void poiseuille_forc(){
-  double ff_true = property.gradP/6.0; //= 1.e-6;
+void poiseuille_forc(int i){
+  double ff_true; 
   int x, y;
+ 
+  ff_true = property.gradP*(8./15.);
 
 #ifdef METHOD_FORCING_GUO
   for (y=1; y<NY+1; y++)
@@ -210,5 +213,34 @@ void sponge_forc(){
 #endif
     }
 
+}
+#endif
+
+
+
+#ifdef FLUID_GRADIENT
+void compute_fluid_gradient_tensor(){
+  int x, y, pp, i, j;
+  pop p_eq;
+  tensor S;
+
+  for (y=1; y<NY+1; y++){
+    for (x=1; x<NX+1; x++){
+
+      /* equilibrium distribution */
+      p_eq=equilibrium(p,y,x);
+
+      S.xx = S.xy = S.yx = S.yy = 0.0;
+      for (pp=0; pp<9; pp++){
+	S.xx += cx[pp]*cx[pp]*(p[IDX(y,x)].p[pp] - p_eq.p[pp]);
+	S.xy += cx[pp]*cy[pp]*(p[IDX(y,x)].p[pp] - p_eq.p[pp]);
+	S.yx += cy[pp]*cx[pp]*(p[IDX(y,x)].p[pp] - p_eq.p[pp]);
+	S.yy += cy[pp]*cy[pp]*(p[IDX(y,x)].p[pp] - p_eq.p[pp]);
+      }
+      gradv[IDX(y,x)]=S;
+
+      //fprintf(stderr,"S.xx %g, S.xy %g, S.yx %g, S.yy %g\n", S.xx, S.xy, S.yx, S.yy);fflush(stderr);
+    }
+  }
 }
 #endif

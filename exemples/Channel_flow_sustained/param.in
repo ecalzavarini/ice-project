@@ -3,7 +3,7 @@ NY 400
 max_step 100001
 time_dump_field 2000
 
-tau 0.8
-gradP 1.0e-4
+tau 0.51095
+gradP 3.0e-8
 
 

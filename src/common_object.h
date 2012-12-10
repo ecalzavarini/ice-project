@@ -25,6 +25,7 @@ extern velocity *v,*vold;
 extern my_double *dens;
 extern vector *force;
 //#endif
+extern tensor *gradv;
 
 /* LB speeds & weights */
 extern my_double wgt[9] , cx[9] , cy[9]; 
