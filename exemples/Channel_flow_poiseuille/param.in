@@ -4,5 +4,5 @@ max_step 1000001
 time_dump_field 2000
 
 tau 1.0
-gradP 1.e-4
+gradP 1.e-5
 

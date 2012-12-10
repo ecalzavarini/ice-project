@@ -127,6 +127,9 @@ void assign_parameters(){
   sprintf(name,"gradP");
   property.gradP = read_parameter(name);
   fprintf(stderr,"Properties:\ngradP %g\n",(double)property.gradP);
+  dimensionless.Reynolds = ((2./3.)*(double)property.gradP/(2.*(double)property.nu)*(double)property.NY*(double)property.NY/4.0)*(double)property.NY/(double)property.nu;
+  /* NOTE :density shall be corrected */
+  fprintf(stderr,"Reynolds %g\n",(double)dimensionless.Reynolds);
 #endif
 #endif
 
@@ -274,10 +277,12 @@ void allocate_fields(){
  if(tau == NULL){ fprintf(stderr,"Not enough memory to allocate tau\n"); exit(-1);}
 #endif
  //#endif 
-#ifdef FLUID_RHEOLOGY_POLYMER
+#ifdef FLUID_GRADIENT
   gradv  = (tensor*) malloc(sizeof(vector)*(NX+2)*(NY+2)); 
  if(gradv == NULL){ fprintf(stderr,"Not enough memory to allocate gradv\n"); exit(-1);}
+#endif
 
+#ifdef FLUID_RHEOLOGY_POLYMER
   conf  = (tensor*) malloc(sizeof(vector)*(NX+2)*(NY+2)); 
  if(conf == NULL){ fprintf(stderr,"Not enough memory to allocate conf\n"); exit(-1);}
 #endif

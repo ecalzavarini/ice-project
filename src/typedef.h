@@ -57,6 +57,11 @@ typedef struct {
 } prop;
 
 typedef struct {
+#ifdef FLUID
+#ifdef FLUID_FORCING_POISEUILLE
+  my_double Reynolds;
+#endif 
+#endif
 #ifdef TEMPERATURE
   my_double Prandtl;
 #ifdef TEMPERATURE_BUOYANCY

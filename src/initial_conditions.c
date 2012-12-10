@@ -79,20 +79,22 @@ void initial()
 
 	/* horizontal */	
 
-        p[IDX(y,x)].p[1] = wgt[1]*(0.5*gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5)) *(5./8.); 
-	p[IDX(y,x)].p[5] = wgt[5]*(0.5*gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5)) *(5./8.);
-	p[IDX(y,x)].p[8] = wgt[8]*(0.5*gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5)) *(5./8.);
-	p[IDX(y,x)].p[6] = -wgt[6]*(0.5*gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5)) *(5./8.); 
-	p[IDX(y,x)].p[3] = -wgt[3]*(0.5*gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5)) *(5./8.); 
-	p[IDX(y,x)].p[7] = -wgt[7]*(0.5*gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5)) *(5./8.);
-	
-	p[IDX(y,x)].p[1] *= m(p[IDX(y,x)]);
-	p[IDX(y,x)].p[5] *= m(p[IDX(y,x)]);
-	p[IDX(y,x)].p[8] *= m(p[IDX(y,x)]);
-	p[IDX(y,x)].p[3] *= m(p[IDX(y,x)]);
-	p[IDX(y,x)].p[6] *= m(p[IDX(y,x)]);
-	p[IDX(y,x)].p[7] *= m(p[IDX(y,x)]);
-	
+     p[IDX(y,x)].p[1] = wgt[1]*(gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5)); 
+     p[IDX(y,x)].p[5] = wgt[5]*(gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5));
+     p[IDX(y,x)].p[8] = wgt[8]*(gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5));
+     p[IDX(y,x)].p[6] = -wgt[6]*(gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5)); 
+     p[IDX(y,x)].p[3] = -wgt[3]*(gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5)); 
+     p[IDX(y,x)].p[7] = -wgt[7]*(gradP/nu) * ((double)y-0.5) * ((double)NY-((double)y-0.5));
+     
+     p[IDX(y,x)].p[1] *= m(p[IDX(y,x)]);
+     p[IDX(y,x)].p[5] *= m(p[IDX(y,x)]);
+     p[IDX(y,x)].p[8] *= m(p[IDX(y,x)]);
+     p[IDX(y,x)].p[3] *= m(p[IDX(y,x)]);
+     p[IDX(y,x)].p[6] *= m(p[IDX(y,x)]);
+     p[IDX(y,x)].p[7] *= m(p[IDX(y,x)]);
+     	
+
+
 #endif
 #endif
 
@@ -126,13 +128,13 @@ void initial()
  *  8    (+1,-1)         7    4    8          * 
  *                                            *
  *********************************************/
-    fn=0.1;
-    kn=10.0; //must be an integer
+    fn=0.00000000001;
+    kn=10.0;
     for (y=0; y<NY+2; y++)
       for (x=0; x<NX+2; x++){ 
 	
-	//kn=ceil(x/NY)*2.0;
-	fn=sin(2.*3.14*x/NX)*1.0;
+	kn=sin(2.*3.14*y/NY)*5.0;
+	fn=sin(2.*3.14*x/NX)*0.2;
 	/* horizontal */	
 
 	p[IDX(y,x)].p[1] += wgt[1]*fn*sin(kn*2.*3.14*y/NY); 
@@ -142,7 +144,6 @@ void initial()
 	p[IDX(y,x)].p[3] += -wgt[3]*fn*sin(kn*2.*3.14*y/NY); 
 	p[IDX(y,x)].p[7] += -wgt[7]*fn*sin(kn*2.*3.14*y/NY); 
 	
-
 	/* veritcal */	
 
 	p[IDX(y,x)].p[6] += wgt[6]*fn*sin(kn*2.*3.14*x/NX); 

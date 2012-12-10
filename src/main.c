@@ -33,6 +33,11 @@ int main(int argc, char** argv){
     hydro_fields(itime);      
     print_fields(itime);    
     check_mass(itime);
+#ifdef FLUID
+#ifdef FLUID_GRADIENT
+    compute_fluid_gradient_tensor();
+#endif
+#endif
 
 #if defined(FLUID) || defined(TEMPERATURE)
      nusselt(itime,0);  /* compute heat flow and other global averages : 1st part */
@@ -78,7 +83,7 @@ int main(int argc, char** argv){
 #endif
 
 #ifdef FLUID_FORCING_POISEUILLE
-    poiseuille_forc();
+    poiseuille_forc(itime);
 #endif
 
 #ifdef TEMPERATURE_MELTING

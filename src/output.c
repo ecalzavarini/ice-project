@@ -271,6 +271,20 @@ void print_fields(int tstep)
     fclose(fout);
 #endif
 
+#ifdef FLUID
+#ifdef FLUID_GRADIENT
+    sprintf(fname,"%s/gradv.%d",OutDir,tstep);
+    fout = fopen(fname,"w");
+    for (y=1; y<NY+1; y++) {
+      for (x=1; x<NX+1; x++) 
+	fprintf(fout,"%d %d %g %g %g %g\n", x, y,(double)gradv[IDX(y,x)].xx, (double)gradv[IDX(y,x)].xy,
+		                                 (double)gradv[IDX(y,x)].yx, (double)gradv[IDX(y,x)].yy );
+      fprintf(fout,"\n");
+    }
+    fclose(fout);
+#endif
+#endif
+
 #ifdef TEMPERATURE
     sprintf(fname,"%s/temp.%d",OutDir,tstep);
     fout = fopen(fname,"w");
