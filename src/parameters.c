@@ -39,10 +39,9 @@ void design_lb(){
   cy[8] = -1.0;
 
   /* directions on the lattice */
-  /*
   dirp = {0, 1, 2, 3, 4, 5, 6, 7, 8};
   invp = {0, 3, 4, 1, 2, 7, 8, 5, 6};
-  */
+  
   /* speed of sound constants */
 extern my_double cs, cs2 , cs4 , cs22 , cssq;
 extern my_double invcs, invcs2, invcs4;
