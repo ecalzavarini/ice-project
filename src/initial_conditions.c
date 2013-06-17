@@ -164,7 +164,7 @@ void initial()
 	/* linear temperature gradient */
 	tt[IDX(y,x)] = ( (property.T_bot-property.T_ref) - (property.deltaT/NY)*(y-0.5) );
 #ifdef TEMPERATURE_INITIAL_PERTURBATION
-	if(x<NX/2){ tt[IDX(y,x)] += 1.e-4; }else{ tt[IDX(y,x)] -= 1.e-4; }
+	if(x<NX/2){ tt[IDX(y,x)] += 1.e-2; }else{ tt[IDX(y,x)] -= 1.e-4; }
 #endif
 	/* on the populations */
 	for (pp = 0; pp < 9; pp++) 

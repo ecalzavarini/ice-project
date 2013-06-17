@@ -232,7 +232,8 @@ void buoyancy()
   for (y=1; y<NY+1; y++)
     for (x=1; x<NX+1; x++){
 
-      temp = (tt[IDX(y,x)] - property.T_ref);
+      //temp = (tt[IDX(y,x)] - property.T_ref);
+      temp = (tt[IDX(y,x)] - 0.5*(property.T_bot + property.T_top));
       force[IDX(y,x)].x += 0.0;
       force[IDX(y,x)].y += (ff1*temp + ff2*temp*temp);
       //if(itime==1)fprintf (stderr, "%g %g\n",  tt[IDX(y,x)], force[IDX(y,x)].y);

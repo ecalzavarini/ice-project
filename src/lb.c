@@ -37,7 +37,7 @@ void displace(pop* p)
 
 
 
-pop equilibrium(pop *f, int y, int x) {
+pop equilibrium(pop *f, int y, int x){
   int pp;
   my_double ux, uy;
   my_double rho,rhof;
