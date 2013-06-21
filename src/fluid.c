@@ -193,6 +193,7 @@ void poiseuille_forc(int i){
 #endif
 
 
+
 #ifdef FLUID_FORCING_SPONGE
 void sponge_forc(){
   my_double temp;

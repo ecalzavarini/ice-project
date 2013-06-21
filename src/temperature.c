@@ -272,11 +272,14 @@ void buoyancy()
 void temperature_forcing() 
 {
   int x , y, pp; 
-  my_double internal_heat = 5.333333e-4;
+  // my_double internal_heat = 5.333333e-4;
+  my_double  extinction_coeff = 0.1;
+  my_double  radiation_flux = 0.01;
 
   for (y=1; y<NY+1; y++)
     for (x=1; x<NX+1; x++){
-      for (pp=0; pp<9; pp++) g[IDX(y,x)].p[pp] += wgt[pp]*internal_heat;
+      //for (pp=0; pp<9; pp++) g[IDX(y,x)].p[pp] += wgt[pp]*internal_heat;
+      for (pp=0; pp<9; pp++) g[IDX(y,x)].p[pp] += wgt[pp]*radiation_flux*extinction_coeff*exp(-y*extinction_coeff);
     }
 
 }

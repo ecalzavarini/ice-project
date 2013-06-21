@@ -16,4 +16,4 @@ clean:
 	rm -rf ./*.o ./*~ $(EXECUTABLE) ./*.dat ./RUN
 
 tar:
-	tar cvzf iceproject_backup.tgz ./*.c ./*.h ./*.sh Makefile 
+	tar cvzf iceproject_backup.tgz ./*.c ./*.h ./*.sh Makefile param.in
